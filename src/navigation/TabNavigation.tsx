@@ -5,16 +5,16 @@ import {
 } from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home';
 import SearchScreen from '../screens/SearchTab/SearchScreen';
-import {
-  LayoutChangeEvent,
-  View,
-} from 'react-native';
+import {ImageBackground, LayoutChangeEvent, View} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
 import TabButton from '../components/TabButton/TabButton';
+import SavedScreen from '../screens/SavedScreen/SavedScreen';
+import ProfileScreen from '../screens/ProfileScreen/ProfileScreen';
+import {images} from '../constants/images';
 
 const Tab = createBottomTabNavigator();
 
@@ -35,10 +35,11 @@ export default function TabNavigation() {
       tabBar={props => <MyTabBar {...props} />}>
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Search" component={SearchScreen} />
+      <Tab.Screen name="Saved" component={SavedScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
 }
-
 
 const MyTabBar = ({state, navigation}: BottomTabBarProps) => {
   const [dimension, setDimesion] = useState({height: 20, width: 100});
@@ -63,23 +64,29 @@ const MyTabBar = ({state, navigation}: BottomTabBarProps) => {
     };
   });
 
-  
-
   return (
     <View
       onLayout={onTabbarLayout}
       className="bg-[#0F0D23] rounded-[50] absolute bottom-[10] mx-[20] justify-between items-center flex-row">
       <Animated.View
         // eslint-disable-next-line react-native/no-inline-styles
-        style={[animatedStyleBg, {
+        style={[
+          animatedStyleBg,
+          {
             position: 'absolute',
-            backgroundColor: '#723FEB',
+            // backgroundColor: '#D6C7FF',
             borderRadius: 30,
-            marginHorizontal: 12,
             height: dimension.height,
-            width: buttonWidth - 25,
-        }]}
-      />
+            width: buttonWidth,
+          },
+        ]}>
+        <ImageBackground
+          imageStyle={{borderRadius: 30}}
+          resizeMode="cover"
+          className="w-full h-full rounded"
+          source={images.highlight}
+        />
+      </Animated.View>
       {state.routes.map((route, index) => {
         const isFocused = state.index === index;
 

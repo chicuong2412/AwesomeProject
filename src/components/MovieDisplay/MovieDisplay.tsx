@@ -3,6 +3,7 @@ import React from 'react';
 import {icons} from '../../constants/icons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Movie, StackRootIn } from '../../interfaces/interfaces';
 
 type NavigationProp = NativeStackNavigationProp<StackRootIn, 'Home'>;
 

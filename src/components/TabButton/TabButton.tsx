@@ -41,7 +41,7 @@ export default function TabButton({
 
   return (
     <TouchableOpacity
-      className="justify-center items-center flex flex-1 flex-col h-[52]"
+      className="justify-center items-center flex flex-1 flex-row h-[52]"
       key={routeName}
       onPress={onPress}
       onLongPress={onLongPress}
@@ -51,14 +51,14 @@ export default function TabButton({
           isFocused ? '#151312' : '#A8B5DB',
         )}
       </Animated.View>
-      <Text
+      {isFocused && <Text
         className={
           isFocused
-            ? 'text-secondary text-base font-semibold ml-2'
+            ? 'text-[#151312] text-base font-semibold ml-2'
             : 'text-white'
         }>
         {routeName}
-      </Text>
+      </Text>}
     </TouchableOpacity>
   );
 }
@@ -72,5 +72,11 @@ const iconsDisplayed = {
   ),
   Details: (color: string) => (
     <Image source={icons.search} tintColor={color} className="size-5" />
+  ),
+  Saved: (color: string) => (
+    <Image source={icons.save} tintColor={color} className="size-5" />
+  ),
+  Profile: (color: string) => (
+    <Image source={icons.person} tintColor={color} className="size-5" />
   ),
 };

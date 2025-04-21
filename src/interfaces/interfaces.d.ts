@@ -80,4 +80,21 @@ interface TrendingCardProps {
 type StackRootIn = {
   Home: undefined;
   Details: {itemId: number};
+  Video: undefined;
+}
+
+export interface EpisodeItemInfo {
+  idEpisode: string,
+  name: string,
+  overview: string,
+  imageSrc: string,
+  duration: number,
+  movieId: string,
+  seasonId: string,
+}
+
+export interface Season {
+  idSeason: string,
+  listEpisodes: EpisodeItemInfo[],
+  movieId: string,
 }

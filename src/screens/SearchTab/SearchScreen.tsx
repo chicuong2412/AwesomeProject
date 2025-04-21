@@ -64,7 +64,7 @@ export default function SearchScreen() {
 
       <ScrollView className="px-5">
         <Image source={icons.logo} className="mx-auto my-10" />
-        <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} />
+        <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} placeholder="Search through over 300+ movies online" />
         <FlatList
           data={movies}
           renderItem={({item}) => {
@@ -100,7 +100,7 @@ export default function SearchScreen() {
               {!loading && !errors && searchValue.trim() && (
                 <>
                   <Text className="text-xl text-white font-bold">
-                    Search results for: {searchValue}
+                    Search results for: <Text className="text-[#D1C0FF]">{searchValue}</Text>
                   </Text>
                 </>
               )}

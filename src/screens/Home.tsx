@@ -16,6 +16,7 @@ import '../styles/global.css';
 import MovieDisplay from '../components/MovieDisplay/MovieDisplay.tsx';
 import {fetchData} from '../services/DataService.ts';
 import {useFetch} from '../hooks/useFetch.ts';
+import { Movie } from '../interfaces/interfaces';
 
 export default function Home() {
   // const navigate = useNavigation();
@@ -49,7 +50,8 @@ export default function Home() {
       />
 
       <ScrollView className="px-5">
-        <Image source={icons.logo} className="mx-auto my-10" />
+        <Image source={icons.logo} className="mx-auto my-5 w-[80] h-[80]" resizeMode="contain" />
+        <Image source={images.Posters} className="mx-auto my-10 w-full h-[100]" resizeMode="cover" />
         <Text className="font-bold text-white text-2xl py-2">
           Latest movies
         </Text>
