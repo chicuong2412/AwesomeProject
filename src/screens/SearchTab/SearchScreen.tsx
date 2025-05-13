@@ -16,10 +16,9 @@ import {
   import MovieDisplay from '../../components/MovieDisplay/MovieDisplay.tsx';
   import {fetchData} from '../../services/DataService.ts';
   import {useFetch} from '../../hooks/useFetch.ts';
-import { Movie } from '../../interfaces/interfaces';
 
 export default function SearchScreen() {
-    // const navigate = useNavigation();
+  // const navigate = useNavigation();
   // const navigate = useNavigation<NativeStackNavigationProp<RootNaviagtion>>();
 
   const [searchValue, setSearchValue] = useState('');
@@ -66,7 +65,7 @@ export default function SearchScreen() {
       />
 
       <ScrollView className="px-5">
-        <Image source={icons.logo} className="mx-auto my-5 w-[80] h-[80]" resizeMode="contain" />
+        <Image source={icons.logo} className="mx-auto my-10" />
         <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} placeholder="Search through over 300+ movies online" />
         <FlatList
           data={movies}
@@ -103,7 +102,8 @@ export default function SearchScreen() {
               {!loading && !errors && searchValue.trim() && (
                 <>
                   <Text className="text-xl text-white font-bold">
-                    Search results for: <Text className="text-[#D1C0FF]">{searchValue}</Text>
+                    Search results for:{' '}
+                    <Text className="text-[#D1C0FF]">{searchValue}</Text>
                   </Text>
                 </>
               )}
