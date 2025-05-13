@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {
   BottomTabBarProps,
@@ -67,9 +68,8 @@ const MyTabBar = ({state, navigation}: BottomTabBarProps) => {
   return (
     <View
       onLayout={onTabbarLayout}
-      className="bg-[#0F0D23] rounded-[50] absolute bottom-[10] mx-[20] justify-between items-center flex-row">
+      className="bg-[#0F0D23] rounded-[50] absolute bottom-[20] mx-[20] justify-between items-center flex-row">
       <Animated.View
-        // eslint-disable-next-line react-native/no-inline-styles
         style={[
           animatedStyleBg,
           {
@@ -77,7 +77,7 @@ const MyTabBar = ({state, navigation}: BottomTabBarProps) => {
             // backgroundColor: '#D6C7FF',
             borderRadius: 30,
             height: dimension.height,
-            width: buttonWidth,
+            width: buttonWidth + 20,
           },
         ]}>
         <ImageBackground

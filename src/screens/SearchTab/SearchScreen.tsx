@@ -16,6 +16,7 @@ import {
   import MovieDisplay from '../../components/MovieDisplay/MovieDisplay.tsx';
   import {fetchData} from '../../services/DataService.ts';
   import {useFetch} from '../../hooks/useFetch.ts';
+import { Movie } from '../../interfaces/interfaces';
 
 export default function SearchScreen() {
     // const navigate = useNavigation();
@@ -50,6 +51,8 @@ export default function SearchScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchValue]);
 
+  console.log(movies);
+
   return (
     <View className="bg-primary flex-1">
       <Image
@@ -63,7 +66,7 @@ export default function SearchScreen() {
       />
 
       <ScrollView className="px-5">
-        <Image source={icons.logo} className="mx-auto my-10" />
+        <Image source={icons.logo} className="mx-auto my-5 w-[80] h-[80]" resizeMode="contain" />
         <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} placeholder="Search through over 300+ movies online" />
         <FlatList
           data={movies}

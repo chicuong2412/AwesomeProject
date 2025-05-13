@@ -65,7 +65,7 @@ export default function DetailScreen({
         {/* <MaterialIcons name ="keyboard-backspace" color="red" size={90} /> */}
       </View>
 
-      <ScrollView className="px-5 mt-2">
+      <ScrollView className="px-5 mt-2 mb-10">
         <Text className="text-white font-bold text-2xl">{data?.title}</Text>
         <Text className="text-[#A8B5DB] mb-5">
           {data?.release_date.split('-')[0]} {'\u26AC'} {data?.status}{' '}
@@ -126,7 +126,7 @@ export default function DetailScreen({
         </View>
         <View className="mb-10">
           <Text className="text-[#A8B5DB] mb-3">Countries</Text>
-          <View className="flex-row gap-2">
+          <View className="flex-row gap-2 flex-wrap">
             {data?.production_countries.map(({name}, index) => {
               return (
                 <Text
@@ -138,17 +138,38 @@ export default function DetailScreen({
             })}
           </View>
         </View>
-        <View className="flex-row gap-[10%]">
+        <View className="flex-row gap-[10%] mb-10">
           <View>
             <Text className="text-[#A8B5DB] mb-3">Budget</Text>
-            <Text className="text-[#D6C7FF]">{new Intl.NumberFormat("en-US", {
-              currency: "USD",
-              style: "currency",
-              
-            }).format(data?.budget || 0)}</Text>
+            <Text className="text-[#D6C7FF]">
+              {new Intl.NumberFormat('en-US', {
+                currency: 'USD',
+                style: 'currency',
+              }).format(data?.budget || 0)}
+            </Text>
           </View>
           <View>
             <Text className="text-[#A8B5DB] mb-3">Revenue</Text>
+            <Text className="text-[#D6C7FF]">
+              {new Intl.NumberFormat('en-US', {
+                currency: 'USD',
+                style: 'currency',
+              }).format(data?.revenue || 0)}
+            </Text>
+          </View>
+        </View>
+        <View>
+          <Text className="text-[#A8B5DB] mb-3">Countries</Text>
+          <View className="flex-row gap-2 flex-wrap">
+            {data?.production_companies.map(({name}, index) => {
+              return (
+                <Text
+                  key={index}
+                  className="text-white font-bold px-3 py-1 bg-[#221F3D] rounded">
+                  {name}
+                </Text>
+              );
+            })}
           </View>
         </View>
       </ScrollView>

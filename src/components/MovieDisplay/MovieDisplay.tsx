@@ -15,7 +15,7 @@ export default function MovieDisplay({item}: {item: Movie}) {
     <TouchableOpacity onPress={() => {
       navigation.navigate('Details', {
         itemId: item.id,
-      })
+      });
     }} className="text-white w-[30%] flex-col">
       <View className="">
         <Image

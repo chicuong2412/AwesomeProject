@@ -54,7 +54,7 @@ export default function TabButton({
       {isFocused && <Text
         className={
           isFocused
-            ? 'text-[#151312] text-base font-semibold ml-2'
+            ? 'text-[#151312] text-base font-semibold ml-3'
             : 'text-white'
         }>
         {routeName}
@@ -65,7 +65,7 @@ export default function TabButton({
 
 const iconsDisplayed = {
   Home: (color: string) => (
-    <Image source={icons.home} tintColor={color} className="size-5" />
+    <Image source={icons.home} tintColor={color} className="size-5 mr-2" />
   ),
   Search: (color: string) => (
     <Image source={icons.search} tintColor={color} className="size-5" />
