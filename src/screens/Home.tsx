@@ -6,7 +6,7 @@ import {
   FlatList,
   ActivityIndicator,
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 // import {useNavigation} from '@react-navigation/native';
 // import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 // import {RootNaviagtion} from '../types/interfaces.ts';
@@ -16,26 +16,27 @@ import '../styles/global.css';
 import MovieDisplay from '../components/MovieDisplay/MovieDisplay.tsx';
 import {fetchData} from '../services/DataService.ts';
 import {useFetch} from '../hooks/useFetch.ts';
-import { Movie } from '../interfaces/interfaces';
+import {Movie} from '../interfaces/interfaces';
+import SearchBar from '../components/SearchBar/SearchBar.tsx';
 
 export default function Home() {
   // const navigate = useNavigation();
   // const navigate = useNavigation<NativeStackNavigationProp<RootNaviagtion>>();
+  const [searchValue, setSearchValue] = useState('');
+
   const {
     data: movies = [],
     loading,
     refetch: loadMovies,
     errors,
   } = useFetch<Movie[]>(() => {
-    return fetchData(
-      'discover/movie'
-    );
+    return fetchData('discover/movie');
   }, false);
 
   useEffect(() => {
     loadMovies();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <View className="bg-primary flex-1">
@@ -50,9 +51,29 @@ export default function Home() {
       />
 
       <ScrollView className="px-5">
-        <Image source={icons.logo} className="mx-auto my-5 w-[80] h-[80]" resizeMode="contain" />
-        <Image source={images.Posters} className="mx-auto my-10 w-full h-[100]" resizeMode="cover" />
-        <Text className="font-bold text-white text-2xl py-2">
+        <Image
+          source={icons.logo}
+          className="mx-auto mt-12 mb-2 w-[80] h-[80]"
+          resizeMode="contain"
+        />
+        <SearchBar
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          placeholder="Search through over 300+ movies online"
+        />
+
+        <Image
+          source={images.Posters}
+          className="mx-auto mt-5 mb-5 w-[340] h-[140]"
+          resizeMode="cover"
+        />
+        <Text
+          className=" text-white py-2"
+          style={{
+            fontFamily: 'DMSans-Bold',
+            fontWeight: 'bold',
+            fontSize: 20,
+          }}>
           Latest movies
         </Text>
         <FlatList

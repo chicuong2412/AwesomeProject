@@ -3,7 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import TabNavigation from './TabNavigation';
 import DetailScreen from '../screens/DetailScreen/DetailScreen';
 import VideoScreen from '../screens/VideoScreen/VideoScreen';
-import { StackRootIn } from '../interfaces/interfaces';
+import {StackRootIn} from '../interfaces/interfaces';
 
 const Stack = createNativeStackNavigator<StackRootIn>();
 
@@ -15,7 +15,11 @@ export default function StackNavigation() {
       }}>
       <Stack.Screen name="Home" component={TabNavigation} />
       <Stack.Screen name="Details" component={DetailScreen} />
-      <Stack.Screen name="Video" component={VideoScreen} options={{headerShown: false}} />
+      <Stack.Screen
+        name="Video"
+        component={VideoScreen}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 }

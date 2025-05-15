@@ -1,21 +1,22 @@
 import {
-    View,
-    Text,
-    Image,
-    ScrollView,
-    FlatList,
-    ActivityIndicator,
-  } from 'react-native';
-  import React, {useEffect, useState} from 'react';
-  // import {useNavigation} from '@react-navigation/native';
-  // import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-  // import {RootNaviagtion} from '../types/interfaces.ts';
-  import {images} from '../../constants/images.ts';
-  import {icons} from '../../constants/icons.ts';
-  import SearchBar from '../../components/SearchBar/SearchBar.tsx';
-  import MovieDisplay from '../../components/MovieDisplay/MovieDisplay.tsx';
-  import {fetchData} from '../../services/DataService.ts';
-  import {useFetch} from '../../hooks/useFetch.ts';
+  View,
+  Text,
+  Image,
+  ScrollView,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
+// import {useNavigation} from '@react-navigation/native';
+// import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+// import {RootNaviagtion} from '../types/interfaces.ts';
+import {images} from '../../constants/images.ts';
+import {icons} from '../../constants/icons.ts';
+import SearchBar from '../../components/SearchBar/SearchBar.tsx';
+import MovieDisplay from '../../components/MovieDisplay/MovieDisplay.tsx';
+import {fetchData} from '../../services/DataService.ts';
+import {useFetch} from '../../hooks/useFetch.ts';
+import {Movie} from '../../interfaces/interfaces';
 
 export default function SearchScreen() {
   // const navigate = useNavigation();
@@ -65,8 +66,16 @@ export default function SearchScreen() {
       />
 
       <ScrollView className="px-5">
-        <Image source={icons.logo} className="mx-auto my-10" />
-        <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} placeholder="Search through over 300+ movies online" />
+        <Image
+          source={icons.logo}
+          className="mx-auto mt-12 mb-2 w-[80] h-[80]"
+          resizeMode="contain"
+        />{' '}
+        <SearchBar
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          placeholder="Search through over 300+ movies online"
+        />
         <FlatList
           data={movies}
           renderItem={({item}) => {

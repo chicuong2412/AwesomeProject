@@ -8,6 +8,12 @@ import play from '../assets/icons/play.png';
 import arrow from '../assets/icons/arrow.png';
 import like from '../assets/icons/like.png';
 import playIcon from '../assets/icons/playIcon.png';
+import menu from '../assets/icons/menus.png';
+import bell from '../assets/icons/bell.png';
+import avt from '../assets/icons/avt.png';
+import love from '../assets/icons/love.png';
+import showPass from "../assets/icons/eye-password-show-svgrepo-com.svg";
+import hidePaas from "../assets/icons/eye-password-hide-svgrepo-com.svg";
 
 export const icons = {
   home,
@@ -20,4 +26,10 @@ export const icons = {
   arrow,
   like,
   playIcon,
+  menu,
+  bell,
+  avt,
+  love,
+  showPass,
+  hidePaas,
 };
