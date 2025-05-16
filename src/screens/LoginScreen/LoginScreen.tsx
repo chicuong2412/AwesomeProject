@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {images} from '../../constants/images';
 import {icons} from '../../constants/icons';
 import LinearGradient from 'react-native-linear-gradient';
+import NormalGradientText from '../../components/Text/GradientText';
 
 export default function LoginScreen() {
   const [showPassword, setShowPassword] = useState(false);
@@ -34,13 +35,23 @@ export default function LoginScreen() {
             style={{
               borderRadius: 50,
             }}>
-            <Text className="text-black font-semibold text-center text-xl">
+            <Text
+              className="text-black text-center text-xl"
+              style={{
+                fontFamily: 'DMSans-Bold',
+                fontWeight: 'bold',
+              }}>
               Sign in
             </Text>
           </LinearGradient>
         </TouchableOpacity>
         <TouchableOpacity className="border border-white w-[50%] py-3 rounded-full">
-          <Text className="text-white font-semibold text-center text-xl">
+          <Text
+            className="text-white text-center text-xl"
+            style={{
+              fontFamily: 'DMSans-Bold',
+              fontWeight: 'bold',
+            }}>
             Sign up
           </Text>
         </TouchableOpacity>
@@ -83,7 +94,9 @@ export default function LoginScreen() {
       <View className="flex-row justify-left pl-10">
         <Text className="text-white">New? </Text>
         <TouchableOpacity>
-          <Text className="text-white underline font-bold">Create new account</Text>
+          <Text className="text-white underline font-bold">
+            Create new account
+          </Text>
         </TouchableOpacity>
       </View>
     </View>

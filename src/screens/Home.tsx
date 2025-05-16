@@ -64,7 +64,7 @@ export default function Home() {
 
         <Image
           source={images.Posters}
-          className="mx-auto mt-5 mb-5 w-[340] h-[140]"
+          className="mx-auto mt-5 mb-5 w-[360] h-[140]"
           resizeMode="cover"
         />
         <Text

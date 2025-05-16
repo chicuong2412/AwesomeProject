@@ -156,10 +156,27 @@ export default function VideoScreen() {
         stickyHeaderIndices={[0]}
         className="bg-primary"> */}
       <View className="px-4">
-        <Text className="text-white font-bold text-3xl mb-1">One piece</Text>
+        <Text
+          className="text-white text-3xl mb-1"
+          style={{
+            fontFamily: 'DMSans-Bold',
+            fontWeight: 'bold',
+          }}>
+          One piece
+        </Text>
         <View className="w-[200] h-[6] bg-[#AB8BFF]" />
-        <Text className="text-white text-2xl mt-5 mb-5">Episode 1</Text>
-        <Text className="text-base font-light text-[#D9D9D9] mb-5">
+        <Text
+          className="text-white text-2xl mt-1 mb-5"
+          style={{
+            fontFamily: 'DMSans-Medium',
+          }}>
+          Episode 1
+        </Text>
+        <Text
+          className="text-base font-light text-[#D9D9D9] mb-5"
+          style={{
+            fontFamily: 'DMSans-Medium',
+          }}>
           Hải tặc trẻ tuổi Monkey D. Luffy mâu thuẫn với những gã hải tặc khác
           khi chúng tấn công một du thuyền. May thay, Luffy sở hữu sức mạnh của
           trái cao su.

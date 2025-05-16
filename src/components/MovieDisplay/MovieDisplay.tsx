@@ -48,6 +48,7 @@ export default function MovieDisplay({item}: {item: Movie}) {
             className="text-white"
             style={{
               fontFamily: 'DMSans-Bold',
+              fontWeight: 'bold',
               fontSize: 11,
             }}>
             {Math.round(item.vote_average)}/10

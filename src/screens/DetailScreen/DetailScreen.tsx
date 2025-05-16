@@ -66,35 +66,89 @@ export default function DetailScreen({
       </View>
 
       <ScrollView className="px-5 mt-2 mb-10">
-        <Text className="text-white font-bold text-2xl">{data?.title}</Text>
-        <Text className="text-[#A8B5DB] mb-5">
-          {data?.release_date.split('-')[0]} {'\u26AC'} {data?.status}{' '}
-          {'\u26AC'} {data?.runtime} minutes
+        <Text
+          className="text-white text-2xl"
+          style={{
+            fontFamily: 'DMSans-Bold',
+            fontWeight: 'bold',
+          }}>
+          {data?.title}
+        </Text>
+        <Text
+          className="text-[#A8B5DB] mb-5"
+          style={{
+            fontFamily: 'DMSans-Medium',
+          }}>
+          {data?.release_date.split('-')[0]} • {data?.status} • {data?.runtime}{' '}
+          minutes
         </Text>
         <View className="mb-8 flex-row gap-2">
           <View className="w-[110] h-[30]">
             <View className="flex-row bg-[#221F3D] justify-center px-5 h-full items-center rounded">
               <Image className="mr-1" source={icons.star} />
-              <Text className="text-white font-bold">
+              <Text
+                className="text-white"
+                style={{
+                  fontFamily: 'DMSans-Bold',
+                  fontWeight: 'bold',
+                }}>
                 {Math.round(data?.vote_average || 0)}
               </Text>
-              <Text className="text-[#A8B5DB]">/10 ({data?.vote_count})</Text>
+              <Text
+                className="text-[#A8B5DB]"
+                style={{
+                  fontFamily: 'DMSans-Bold',
+                  fontWeight: 'bold',
+                }}>
+                /10 ({data?.vote_count})
+              </Text>
             </View>
           </View>
           <View className="max-w-12 text-[#A8B5DB] h-[30]">
             <View className="flex-row gap-1 justify-center items-center px-5 bg-[#221F3D] h-full rounded">
               <Image source={icons.save} />
-              <Text className="text-[#A8B5DB]">1</Text>
+              <Text
+                className="text-[#A8B5DB]"
+                style={{
+                  fontFamily: 'DMSans-Bold',
+                  fontWeight: 'bold',
+                }}>
+                1
+              </Text>
             </View>
           </View>
         </View>
-        <Text className="text-[#A8B5DB] pb-1">Overview</Text>
-        <Text className="text-white text-base mb-5">{data?.overview}</Text>
+        <Text
+          className="text-[#A8B5DB] pb-1"
+          style={{
+            fontFamily: 'DMSans-Bold',
+            fontWeight: 'bold',
+          }}>
+          Overview
+        </Text>
+        <Text
+          className="text-white text-base mb-5"
+          style={{
+            fontFamily: 'DMSans-Medium',
+          }}>
+          {data?.overview}
+        </Text>
 
         <View className="flex-row gap-[10%] mb-10">
           <View className="w-[60%]">
-            <Text className="text-[#A8B5DB] mb-3">Release Date</Text>
-            <Text className="text-[#D6C7FF] text-xl">
+            <Text
+              className="text-[#A8B5DB] mb-3"
+              style={{
+                fontFamily: 'DMSans-Medium',
+              }}>
+              Release Date
+            </Text>
+            <Text
+              className="text-[#D6C7FF] text-xl"
+              style={{
+                fontFamily: 'DMSans-Bold',
+                fontWeight: 'bold',
+              }}>
               {new Date(
                 data?.release_date.toString() || '2024-12-11',
               ).toLocaleDateString('en-US', {
@@ -106,18 +160,41 @@ export default function DetailScreen({
             </Text>
           </View>
           <View className="w-[30%]">
-            <Text className="text-[#A8B5DB] text-base mb-3">Status</Text>
-            <Text className="text-[#D6C7FF] text-xl">{data?.status}</Text>
+            <Text
+              className="text-[#A8B5DB] text-base mb-3"
+              style={{
+                fontFamily: 'DMSans-Medium',
+              }}>
+              Status
+            </Text>
+            <Text
+              className="text-[#D6C7FF] text-xl"
+              style={{
+                fontFamily: 'DMSans-Bold',
+                fontWeight: 'bold',
+              }}>
+              {data?.status}
+            </Text>
           </View>
         </View>
         <View className="mb-10">
-          <Text className="text-[#A8B5DB] mb-3">Generes</Text>
+          <Text
+            className="text-[#A8B5DB] mb-3"
+            style={{
+              fontFamily: 'DMSans-Medium',
+            }}>
+            Generes
+          </Text>
           <View className="flex-row gap-2">
             {data?.genres.map(({name}, index) => {
               return (
                 <Text
                   key={index}
-                  className="text-white font-bold px-3 py-1 bg-[#221F3D] rounded">
+                  className="text-white font-bold px-3 py-1 bg-[#221F3D] rounded"
+                  style={{
+                    fontFamily: 'DMSans-Bold',
+                    fontWeight: 'bold',
+                  }}>
                   {name}
                 </Text>
               );
@@ -125,13 +202,23 @@ export default function DetailScreen({
           </View>
         </View>
         <View className="mb-10">
-          <Text className="text-[#A8B5DB] mb-3">Countries</Text>
+          <Text
+            className="text-[#A8B5DB] mb-3"
+            style={{
+              fontFamily: 'DMSans-Medium',
+            }}>
+            Countries
+          </Text>
           <View className="flex-row gap-2 flex-wrap">
             {data?.production_countries.map(({name}, index) => {
               return (
                 <Text
                   key={index}
-                  className="text-white font-bold px-3 py-1 bg-[#221F3D] rounded">
+                  className="text-white font-bold px-3 py-1 bg-[#221F3D] rounded"
+                  style={{
+                    fontFamily: 'DMSans-Bold',
+                    fontWeight: 'bold',
+                  }}>
                   {name}
                 </Text>
               );
@@ -140,8 +227,19 @@ export default function DetailScreen({
         </View>
         <View className="flex-row gap-[10%] mb-10">
           <View>
-            <Text className="text-[#A8B5DB] mb-3">Budget</Text>
-            <Text className="text-[#D6C7FF]">
+            <Text
+              className="text-[#A8B5DB] mb-3"
+              style={{
+                fontFamily: 'DMSans-Medium',
+              }}>
+              Budget
+            </Text>
+            <Text
+              className="text-[#D6C7FF]"
+              style={{
+                fontFamily: 'DMSans-Bold',
+                fontWeight: 'bold',
+              }}>
               {new Intl.NumberFormat('en-US', {
                 currency: 'USD',
                 style: 'currency',
@@ -149,8 +247,19 @@ export default function DetailScreen({
             </Text>
           </View>
           <View>
-            <Text className="text-[#A8B5DB] mb-3">Revenue</Text>
-            <Text className="text-[#D6C7FF]">
+            <Text
+              className="text-[#A8B5DB] mb-3"
+              style={{
+                fontFamily: 'DMSans-Medium',
+              }}>
+              Revenue
+            </Text>
+            <Text
+              className="text-[#D6C7FF]"
+              style={{
+                fontFamily: 'DMSans-Bold',
+                fontWeight: 'bold',
+              }}>
               {new Intl.NumberFormat('en-US', {
                 currency: 'USD',
                 style: 'currency',
@@ -159,13 +268,23 @@ export default function DetailScreen({
           </View>
         </View>
         <View>
-          <Text className="text-[#A8B5DB] mb-3">Countries</Text>
+          <Text
+            className="text-[#A8B5DB] mb-3"
+            style={{
+              fontFamily: 'DMSans-Medium',
+            }}>
+            Countries
+          </Text>
           <View className="flex-row gap-2 flex-wrap">
             {data?.production_companies.map(({name}, index) => {
               return (
                 <Text
                   key={index}
-                  className="text-white font-bold px-3 py-1 bg-[#221F3D] rounded">
+                  className="text-white font-bold px-3 py-1 bg-[#221F3D] rounded"
+                  style={{
+                    fontFamily: 'DMSans-Bold',
+                    fontWeight: 'bold',
+                  }}>
                   {name}
                 </Text>
               );
