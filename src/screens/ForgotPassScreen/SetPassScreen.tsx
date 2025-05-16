@@ -23,11 +23,21 @@ export default function SetPassScreen() {
         resizeMode="contain"
       />
       <View className="px-10">
-        <Text className="text-white text-2xl font-bold text-center my-10">
+        <Text
+          className="text-white  text-center my-10"
+          style={{
+            fontFamily: 'DMSans-Bold',
+            fontWeight: 'bold',
+            fontSize: 30,
+          }}>
           Set Password
         </Text>
 
-        <Text className="text-white opacity-60 text-left mb-3">
+        <Text
+          className="text-white text-left mb-3"
+          style={{
+            fontFamily: 'DMSans-Medium',
+          }}>
           Enter your password
         </Text>
         <View className="flex-row items-center bg-[#23233B] rounded-lg mb-5 px-4">
@@ -44,7 +54,11 @@ export default function SetPassScreen() {
           </TouchableOpacity>
         </View>
 
-        <Text className="text-white opacity-60 text-left mb-3">
+        <Text
+          className="text-white text-left mb-3"
+          style={{
+            fontFamily: 'DMSans-Medium',
+          }}>
           Confirm your password
         </Text>
         <View className="flex-row items-center bg-[#23233B] rounded-lg mb-6 px-4">

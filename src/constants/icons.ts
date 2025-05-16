@@ -12,8 +12,12 @@ import menu from '../assets/icons/menus.png';
 import bell from '../assets/icons/bell.png';
 import avt from '../assets/icons/avt.png';
 import love from '../assets/icons/love.png';
-import showPass from "../assets/icons/eye-password-show-svgrepo-com.svg";
-import hidePaas from "../assets/icons/eye-password-hide-svgrepo-com.svg";
+import showPass from '../assets/icons/eye-password-show-svgrepo-com.svg';
+import hidePaas from '../assets/icons/eye-password-hide-svgrepo-com.svg';
+import mail from '../assets/icons/mail.png';
+import back from '../assets/icons/back-button.png';
+import calen from '../assets/icons/calendar.png';
+import fill from '../assets/icons/filling.png';
 
 export const icons = {
   home,
@@ -32,4 +36,8 @@ export const icons = {
   love,
   showPass,
   hidePaas,
+  mail,
+  back,
+  calen,
+  fill,
 };

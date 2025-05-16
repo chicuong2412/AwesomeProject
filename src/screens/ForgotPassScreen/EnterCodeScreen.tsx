@@ -38,9 +38,22 @@ export default function EnterCodeScreen() {
         resizeMode="contain"
       />
       <View className="px-10">
-        
-        <Text className="text-white text-2xl font-bold mb-2 mt-10">Enter Your</Text>
-        <Text className="text-white text-2xl font-bold mb-6">
+        <Text
+          className="text-white mb-2 mt-10"
+          style={{
+            fontFamily: 'DMSans-Bold',
+            fontWeight: 'bold',
+            fontSize: 30,
+          }}>
+          Enter Your
+        </Text>
+        <Text
+          className="text-white mb-6"
+          style={{
+            fontFamily: 'DMSans-Bold',
+            fontWeight: 'bold',
+            fontSize: 30,
+          }}>
           Verification Code
         </Text>
 
@@ -53,8 +66,12 @@ export default function EnterCodeScreen() {
               onChangeText={text => handleChange(text, idx)}
               keyboardType="number-pad"
               maxLength={1}
-              className="w-16 h-16 border-2 border-white rounded-lg text-white text-2xl text-center mx-1"
-              style={{backgroundColor: 'transparent'}}
+              className="w-20 h-20 border-white rounded-3xl text-white text-3xl text-center mx-1"
+              style={{
+                backgroundColor: 'transparent',
+                borderWidth: 1,
+                borderColor: 'white',
+              }}
               returnKeyType="next"
               onSubmitEditing={() =>
                 idx < 3 && inputs[idx + 1].current?.focus()
@@ -63,14 +80,26 @@ export default function EnterCodeScreen() {
           ))}
         </View>
 
-        <Text className="text-white text-left mb-2">
+        <Text
+          className="text-white text-left mb-2"
+          style={{
+            fontFamily: 'DMSans-Medium',
+          }}>
           We send the four digits verification to your email.
         </Text>
-        <Text className="text-white text-left mb-6">
+        <Text
+          className="text-white text-left mb-6"
+          style={{
+            fontFamily: 'DMSans-Medium',
+          }}>
           You can check your inbox.
         </Text>
 
-        <Text className="text-white text-left mb-6">
+        <Text
+          className="text-white text-left mb-6"
+          style={{
+            fontFamily: 'DMSans-Medium',
+          }}>
           Did not receive code?{' '}
           <Text className="text-[#A084E8] underline">Resend Now</Text>
         </Text>

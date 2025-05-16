@@ -20,17 +20,31 @@ export default function MainForgotPassScreen() {
         className="mx-auto mt-12 mb-2 w-[80] h-[80]"
         resizeMode="contain"
       />
-      <View className='px-10'>
-        <Text className="text-white text-2xl font-bold text-center my-10">
+      <View className="px-10">
+        <Text
+          className="text-white text-center my-10"
+          style={{
+            fontFamily: 'DMSans-Bold',
+            fontWeight: 'bold',
+            fontSize: 30,
+          }}>
           Forgot Password
         </Text>
 
-        <Text className="text-white opacity-60 text-left mb-3">
+        <Text
+          className="text-white text-left mb-3"
+          style={{
+            fontFamily: 'DMSans-Medium',
+          }}>
           Enter your email address to reset password
         </Text>
 
         <View className="flex-row items-center bg-[#23233B] rounded-lg mb-8 px-4">
-          <Text className="text-[#A3A3A3] mr-2">✉️</Text>
+          <Image
+            source={icons.mail}
+            className="mx-auto w-[18] h-[18]"
+            resizeMode="contain"
+          />{' '}
           <TextInput
             placeholder="Email"
             placeholderTextColor="#A3A3A3"
@@ -39,10 +53,10 @@ export default function MainForgotPassScreen() {
           />
         </View>
 
-        <TouchableOpacity className='rounded-full bg-[#A084E8] '>
-            <Text className="text-white text-center font-bold text-lg py-4">
-              Send
-            </Text>
+        <TouchableOpacity className="rounded-full bg-[#A084E8] ">
+          <Text className="text-white text-center font-bold text-lg py-4">
+            Send
+          </Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -92,12 +92,12 @@ export default function LoginScreen() {
       </View>
 
       <View className="flex-row justify-left pl-10">
-        <Text className="text-white">New? </Text>
         <TouchableOpacity>
           <Text className="text-white underline font-bold">
-            Create new account
+            Create an account,
           </Text>
         </TouchableOpacity>
+        <Text className="text-white"> if you're new</Text>
       </View>
     </View>
   );

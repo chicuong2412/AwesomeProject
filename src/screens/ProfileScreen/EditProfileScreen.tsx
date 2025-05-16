@@ -9,6 +9,7 @@ import {
 import React, {useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {images} from '../../constants/images';
+import {icons} from '../../constants/icons';
 
 export default function EditProfileScreen() {
   const [profile, setProfile] = useState({
@@ -24,9 +25,9 @@ export default function EditProfileScreen() {
   };
 
   return (
-    <ScrollView className="bg-primary" contentContainerStyle={{flexGrow: 1}}>
+    <ScrollView className="bg-black" contentContainerStyle={{flexGrow: 1}}>
       <Image
-        source={images.bg}
+        source={images.bg2}
         resizeMode="cover"
         // eslint-disable-next-line react-native/no-inline-styles
         style={{
@@ -35,11 +36,18 @@ export default function EditProfileScreen() {
         className="absolute z-0"
       />
       {/* Header */}
-      <View className="flex-row items-center justify-between px-4 pt-8 pb-4">
+      <View className="flex-row items-center justify-between px-4 pt-8 pb-4 mt-8">
         <TouchableOpacity>
-          <Text className="text-white text-2xl">{'<'}</Text>
+          <Image source={icons.back} className="w-[28] h-[28]" />
         </TouchableOpacity>
-        <Text className="text-white text-xl font-bold">Edit profile</Text>
+        <Text
+          className="text-white text-2xl "
+          style={{
+            fontFamily: 'DMSans-Bold',
+            fontWeight: 'bold',
+          }}>
+          Edit profile
+        </Text>
         <View style={{width: 24}} /> {/* Placeholder for alignment */}
       </View>
 
@@ -59,8 +67,14 @@ export default function EditProfileScreen() {
       {/* Form */}
       <View className="px-6">
         {/* Username */}
-        <Text className="text-white mb-1">Username</Text>
-        <View className="flex-row items-center border border-[#A084E8] rounded-full px-4 mb-4">
+        <Text
+          className="text-white mb-1"
+          style={{
+            fontFamily: 'DMSans-Medium',
+          }}>
+          Username
+        </Text>
+        <View className="flex-row items-center border border-[white] rounded-full px-4 py-3 mb-4">
           <TextInput
             value={profile.username}
             onChangeText={text => handleChange('username', text)}
@@ -69,14 +83,19 @@ export default function EditProfileScreen() {
             placeholderTextColor="#A3A3A3"
           />
           <TouchableOpacity>
-            <Text className="text-[#A084E8] text-lg">✏️</Text>
-            {/* <Icon name="pencil" size={20} color="#A084E8" /> */}
+            <Image source={icons.fill} className="w-[15] h-[15]" />
           </TouchableOpacity>
         </View>
 
         {/* First Name */}
-        <Text className="text-white mb-1">First Name</Text>
-        <View className="flex-row items-center border border-[#A084E8] rounded-full px-4 mb-4">
+        <Text
+          className="text-white mb-1"
+          style={{
+            fontFamily: 'DMSans-Medium',
+          }}>
+          First Name
+        </Text>
+        <View className="flex-row items-center border border-[white] rounded-full px-4  py-3 mb-4">
           <TextInput
             value={profile.firstName}
             onChangeText={text => handleChange('firstName', text)}
@@ -85,13 +104,19 @@ export default function EditProfileScreen() {
             placeholderTextColor="#A3A3A3"
           />
           <TouchableOpacity>
-            <Text className="text-[#A084E8] text-lg">✏️</Text>
+            <Image source={icons.fill} className="w-[15] h-[15]" />
           </TouchableOpacity>
         </View>
 
         {/* Last Name */}
-        <Text className="text-white mb-1">Last Name</Text>
-        <View className="flex-row items-center border border-[#A084E8] rounded-full px-4 mb-4">
+        <Text
+          className="text-white mb-1"
+          style={{
+            fontFamily: 'DMSans-Medium',
+          }}>
+          Last Name
+        </Text>
+        <View className="flex-row items-center border border-[white] rounded-full px-4 py-3 mb-4">
           <TextInput
             value={profile.lastName}
             onChangeText={text => handleChange('lastName', text)}
@@ -100,13 +125,19 @@ export default function EditProfileScreen() {
             placeholderTextColor="#A3A3A3"
           />
           <TouchableOpacity>
-            <Text className="text-[#A084E8] text-lg">✏️</Text>
+            <Image source={icons.fill} className="w-[15] h-[15]" />
           </TouchableOpacity>
         </View>
 
         {/* Email */}
-        <Text className="text-white mb-1">Email</Text>
-        <View className="flex-row items-center border border-[#A084E8] rounded-full px-4 mb-4">
+        <Text
+          className="text-white mb-1"
+          style={{
+            fontFamily: 'DMSans-Medium',
+          }}>
+          Email
+        </Text>
+        <View className="flex-row items-center border border-[white] rounded-full px-4 py-3 mb-4">
           <TextInput
             value={profile.email}
             onChangeText={text => handleChange('email', text)}
@@ -116,13 +147,19 @@ export default function EditProfileScreen() {
             keyboardType="email-address"
           />
           <TouchableOpacity>
-            <Text className="text-[#A084E8] text-lg">✏️</Text>
+            <Image source={icons.fill} className="w-[15] h-[15]" />
           </TouchableOpacity>
         </View>
 
         {/* Date of Birth */}
-        <Text className="text-white mb-1">Date of Birth</Text>
-        <View className="flex-row items-center border border-[#A084E8] rounded-full px-4 mb-8">
+        <Text
+          className="text-white mb-1"
+          style={{
+            fontFamily: 'DMSans-Medium',
+          }}>
+          Date of Birth
+        </Text>
+        <View className="flex-row items-center border border-[white] rounded-full px-4 py-3 mb-8">
           <TextInput
             value={profile.dob}
             onChangeText={text => handleChange('dob', text)}
@@ -131,7 +168,7 @@ export default function EditProfileScreen() {
             placeholderTextColor="#A3A3A3"
           />
           <TouchableOpacity>
-            <Text className="text-[#A084E8] text-lg">📅</Text>
+            <Image source={icons.calen} className="w-[15] h-[15]" />
           </TouchableOpacity>
         </View>
 

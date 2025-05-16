@@ -15,6 +15,7 @@ import RegisterScreen from './src/screens/RegisterScreen/RegisterScreen.tsx';
 import MainForgotPassScreen from './src/screens/ForgotPassScreen/MainScreen.tsx';
 import EnterCodeScreen from './src/screens/ForgotPassScreen/EnterCodeScreen.tsx';
 import SetPassScreen from './src/screens/ForgotPassScreen/SetPassScreen.tsx';
+import ChangePassScreen from './src/screens/ProfileScreen/ChangePassScreen.tsx';
 import EditProfileScreen from './src/screens/ProfileScreen/EditProfileScreen.tsx';
 
 const Stack = createNativeStackNavigator();
