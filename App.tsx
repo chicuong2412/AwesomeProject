@@ -26,7 +26,7 @@ export default function App() {
         initialRouteName="Intro"
         screenOptions={{headerShown: false}}>
         <Stack.Screen name="Intro" component={IntroScreen} />
-        <Stack.Screen name="MainStack" component={StackNavigation} />
+        <Stack.Screen name="MainStack" component={LoginScreen} />
         {/* StackNavigation */}
         {/* LoginScreen */}
         {/* MainForgotPassScreen */}
