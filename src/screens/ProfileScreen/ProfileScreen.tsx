@@ -45,35 +45,42 @@ export default function ProfileScreen() {
         showsVerticalScrollIndicator={false}
         // stickyHeaderIndices={[0]}
         contentContainerStyle={{flexGrow: 1}}>
-        <View className="flex-row justify-between items-center px-4 pt-10 mt-5">
-          <Text className="text-white text-[24px]">
-            <Text style={{fontFamily: 'DMSans-Bold'}}>My</Text>
+        <View className="flex-row justify-between items-center px-5 pt-10 mt-5">
+          {/* Left side: Your + logo */}
+          <View className="flex-row items-center">
             <Text
+              className="text-[24px]"
               style={{
                 fontFamily: 'DFVNGuardilostra',
-                fontWeight: 'bold',
                 color: '#AB8BFF',
               }}>
-              SELF
+              My
             </Text>
-          </Text>
+            <Image
+              source={icons.logo}
+              className="w-[28px] h-[28px] ml-2"
+              resizeMode="contain"
+            />
+          </View>
 
+          {/* Right side: Menu or others */}
           <View className="flex-row">
+            {/* Uncomment and use as needed */}
             {/* <TouchableOpacity className="w-8 h-8 justify-center items-center">
-              <Image
-                source={icons.search}
-                className="w-5 h-5"
-                resizeMode="contain"
-                tintColor="#AB8BFF"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity className="w-8 h-8 justify-center items-center ml-4">
-              <Image
-                source={icons.bell}
-                className="w-6 h-6"
-                resizeMode="contain"
-              />
-            </TouchableOpacity> */}
+      <Image
+        source={icons.search}
+        className="w-5 h-5"
+        resizeMode="contain"
+        tintColor="#AB8BFF"
+      />
+    </TouchableOpacity>
+    <TouchableOpacity className="w-8 h-8 justify-center items-center ml-4">
+      <Image
+        source={icons.bell}
+        className="w-6 h-6"
+        resizeMode="contain"
+      />
+    </TouchableOpacity> */}
             <TouchableOpacity className="w-8 h-8 justify-center items-center ml-5">
               <Image
                 source={icons.menu}
