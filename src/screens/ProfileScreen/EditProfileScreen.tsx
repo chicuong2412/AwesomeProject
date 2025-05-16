@@ -15,7 +15,7 @@ export default function EditProfileScreen() {
     username: 'plgkiet',
     firstName: 'Tung Tung Tung Tung Tung',
     lastName: 'Sahur',
-    email: 'sahurlovetralalerotalalala@gmail.com',
+    email: 'sahurlovetralalerotralala@gmail.com',
     dob: '30/11/2003',
   });
 

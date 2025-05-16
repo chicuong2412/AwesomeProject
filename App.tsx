@@ -26,12 +26,13 @@ export default function App() {
         initialRouteName="Intro"
         screenOptions={{headerShown: false}}>
         <Stack.Screen name="Intro" component={IntroScreen} />
-        <Stack.Screen name="MainStack" component={EditProfileScreen} />
+        <Stack.Screen name="MainStack" component={StackNavigation} />
         {/* StackNavigation */}
         {/* LoginScreen */}
         {/* MainForgotPassScreen */}
         {/* EnterCodeScreen */}
         {/* SetPassScreen */}
+        {/* EditProfileScreen */}
       </Stack.Navigator>
     </NavigationContainer>
   );

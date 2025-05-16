@@ -43,7 +43,7 @@ export default function ProfileScreen() {
       <ScrollView
         className="mt-6 mb-32"
         showsVerticalScrollIndicator={false}
-        stickyHeaderIndices={[0]}
+        // stickyHeaderIndices={[0]}
         contentContainerStyle={{flexGrow: 1}}>
         <View className="flex-row justify-between items-center px-4 pt-10 mt-5">
           <Text className="text-white">
