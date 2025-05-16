@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import { images } from '../../constants/images';
+import {images} from '../../constants/images';
 
 export default function EditProfileScreen() {
   const [profile, setProfile] = useState({
@@ -19,12 +19,12 @@ export default function EditProfileScreen() {
     dob: '30/11/2003',
   });
 
-  const handleChange = (field, value) => {
+  const handleChange = (field: string, value: string) => {
     setProfile({...profile, [field]: value});
   };
 
   return (
-    <ScrollView className='bg-primary' contentContainerStyle={{flexGrow: 1}}>
+    <ScrollView className="bg-primary" contentContainerStyle={{flexGrow: 1}}>
       <Image
         source={images.bg}
         resizeMode="cover"

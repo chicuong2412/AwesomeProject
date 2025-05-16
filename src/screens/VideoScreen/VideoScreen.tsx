@@ -7,8 +7,8 @@ import {Season, StackRootIn} from '../../interfaces/interfaces';
 import EpisodeDisplay from '../../components/EpisodeDisplay/EpisodeDisplay';
 import {images} from '../../constants/images';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useNavigation } from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {useNavigation} from '@react-navigation/native';
 
 type NavigationProp = NativeStackNavigationProp<StackRootIn, 'Home'>;
 
@@ -120,10 +120,12 @@ export default function VideoScreen() {
     <SafeAreaView
       className="flex-1 bg-primary"
       edges={['bottom', 'left', 'right', 'top']}>
-      <TouchableOpacity className="absolute top-[30] right-4 opacity-25 z-50" onPress={() => {
-        navigate.goBack();
-      }}>
-        <View 
+      <TouchableOpacity
+        className="absolute top-[30] right-4 opacity-25 z-50"
+        onPress={() => {
+          navigate.goBack();
+        }}>
+        <View
         // className="w-[10] h-[10] bg-black"
         >
           <MaterialIcons name="close" color="#D9D9D9" size={30} />
