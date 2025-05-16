@@ -46,23 +46,15 @@ export default function ProfileScreen() {
         // stickyHeaderIndices={[0]}
         contentContainerStyle={{flexGrow: 1}}>
         <View className="flex-row justify-between items-center px-4 pt-10 mt-5">
-          <Text className="text-white">
+          <Text className="text-white text-[24px]">
+            <Text style={{fontFamily: 'DMSans-Bold'}}>My</Text>
             <Text
               style={{
-                fontFamily: 'DMSans-Bold',
+                fontFamily: 'DFVNGuardilostra',
                 fontWeight: 'bold',
-                fontSize: 22,
+                color: '#AB8BFF',
               }}>
-              My{' '}
-              <Text
-                style={{
-                  fontFamily: 'DMSans-Bold',
-                  fontWeight: 'bold',
-                  fontSize: 22,
-                }}
-                className="text-[#AB8BFF]">
-                Account
-              </Text>
+              SELF
             </Text>
           </Text>
 
