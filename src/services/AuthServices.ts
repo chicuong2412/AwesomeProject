@@ -18,7 +18,7 @@ export async function Login(email: string, password: string) {
   return rp;
 }
 
-export async function ForgotPassword(email: string) {
+export async function FetchForgotPassword(email: string) {
   const rp = await axios({
     method: 'GET',
     url: 'forgot-password/' + email,
@@ -29,7 +29,7 @@ export async function ForgotPassword(email: string) {
   });
 
   if (rp.status !== 200) {
-    throw new Error(rp.data);
+    throw new Error(rp.data.detail);
   }
-  return rp;
+  return rp.data.data;
 }

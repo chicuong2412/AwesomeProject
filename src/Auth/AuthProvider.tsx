@@ -46,7 +46,7 @@ export default function AuthProvider({children}: {children: ReactNode}) {
           setAccessToken(rp.data.token);
           setRefreshToken(rp.data.refreshToken);
 
-          await AsyncStorage.setItem('accessToken', rp.data.token);
+          // await AsyncStorage.setItem(Config, rp.data.token);
           await AsyncStorage.setItem('refreshToken', rp.data.refreshToken);
         }
       }

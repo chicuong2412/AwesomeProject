@@ -1,14 +1,42 @@
 import {View, Text, Image, TouchableOpacity, TextInput} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {icons} from '../../constants/icons';
 import {images} from '../../constants/images';
-import { useFetch } from '../../hooks/useFetch';
+import {useFetch} from '../../hooks/useFetch';
+import {FetchForgotPassword} from '../../services/AuthServices';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {StackRootIn} from '../../interfaces/interfaces';
+import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+type MainForgotNavigationProp = NativeStackNavigationProp<
+  StackRootIn,
+  'MainForgotPassScreen'
+>;
 
 export default function MainForgotPassScreen() {
   const [email, setEmail] = useState<string>();
-  const [errors, setErrors] = useState();
+  const navigation = useNavigation<MainForgotNavigationProp>();
 
-  const {} = useFetch()
+  const {data, errors, loading, refetch, reset} = useFetch<string>(() => {
+    if (email === undefined) {
+      throw new Error('Please fill in the email');
+    }
+    return FetchForgotPassword(email);
+  });
+
+  const handlePressedForgot = () => {
+    refetch();
+  };
+
+  useEffect(() => {
+    async function LoginSuccessful() {
+      await AsyncStorage.setItem('resetPassToken', data!);
+    }
+    if (data !== null && errors === null) {
+      LoginSuccessful();
+    }
+  }, [data, errors]);
 
   return (
     <View className="bg-primary flex-1 pt-[10%]">
@@ -61,7 +89,11 @@ export default function MainForgotPassScreen() {
           />
         </View>
 
-        <TouchableOpacity className="rounded-full bg-[#A084E8] ">
+        <TouchableOpacity
+          className="rounded-full bg-[#A084E8]"
+          onPress={() => {
+            handlePressedForgot();
+          }}>
           <Text className="text-white text-center font-bold text-lg py-4">
             Send
           </Text>
