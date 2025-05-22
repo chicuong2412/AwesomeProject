@@ -70,7 +70,7 @@ export default function SearchScreen() {
           source={icons.logo}
           className="mx-auto mt-12 mb-2 w-[80] h-[80]"
           resizeMode="contain"
-        />{' '}
+        />
         <SearchBar
           searchValue={searchValue}
           setSearchValue={setSearchValue}

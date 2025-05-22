@@ -1,9 +1,15 @@
 import {View, Text, Image, TouchableOpacity, TextInput} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {icons} from '../../constants/icons';
 import {images} from '../../constants/images';
+import { useFetch } from '../../hooks/useFetch';
 
 export default function MainForgotPassScreen() {
+  const [email, setEmail] = useState<string>();
+  const [errors, setErrors] = useState();
+
+  const {} = useFetch()
+
   return (
     <View className="bg-primary flex-1 pt-[10%]">
       <Image
@@ -50,6 +56,8 @@ export default function MainForgotPassScreen() {
             placeholderTextColor="#A3A3A3"
             className="flex-1 text-white py-5"
             keyboardType="email-address"
+            value={email}
+            onChangeText={text => setEmail(text)}
           />
         </View>
 

@@ -77,11 +77,16 @@ interface TrendingCardProps {
 }
 
 type StackRootIn = {
-  Home: undefined;
+  Main: undefined;
   Details: {itemId: number};
   Video: undefined;
   Intro: undefined;
   MainStack: undefined;
+  Login: undefined;
+  Register: undefined;
+  MainForgotPassScreen: undefined;
+  EnterCodeScreen: undefined;
+  SetPassScreen: undefined;
 };
 
 export interface EpisodeItemInfo {
@@ -98,4 +103,12 @@ export interface Season {
   idSeason: string;
   listEpisodes: EpisodeItemInfo[];
   movieId: string;
+}
+
+export interface IAuth {
+  accessToken: string | null;
+  refreshToken: string | null;
+  loading: boolean;
+  setTokens: (newAccessToken: string, newRefreshToken: string) => void;
+  clearTokens: () => void;
 }

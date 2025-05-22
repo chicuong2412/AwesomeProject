@@ -1,9 +1,10 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {View, StyleSheet, StatusBar} from 'react-native';
 import Video from 'react-native-video';
 import {useNavigation} from '@react-navigation/native';
 import {StackRootIn} from '../interfaces/interfaces';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {useAuth} from '../Auth/AuthProvider';
 
 type IntroScreenNavigationProp = NativeStackNavigationProp<
   StackRootIn,
@@ -13,7 +14,13 @@ type IntroScreenNavigationProp = NativeStackNavigationProp<
 export default function IntroScreen() {
   const navigation = useNavigation<IntroScreenNavigationProp>();
 
+  const {accessToken} = useAuth();
+
   const handleVideoEnd = () => {
+    if (accessToken == null) {
+      navigation.navigate('Login');
+    }
+
     navigation.navigate('MainStack');
   };
 

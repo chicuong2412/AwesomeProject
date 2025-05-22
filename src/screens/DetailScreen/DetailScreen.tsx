@@ -9,7 +9,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {MovieDetails, StackRootIn} from '../../interfaces/interfaces';
 
-type NavigationProp = NativeStackNavigationProp<StackRootIn, 'Home'>;
+type NavigationProp = NativeStackNavigationProp<StackRootIn, 'Details'>;
 
 export default function DetailScreen({
   route,
