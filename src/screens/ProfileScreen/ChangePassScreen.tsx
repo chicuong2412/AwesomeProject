@@ -9,12 +9,15 @@ import {
 import React, {useState} from 'react';
 import {images} from '../../constants/images';
 import {icons} from '../../constants/icons';
+import {useNavigation} from '@react-navigation/native';
 
 export default function ChangePassScreen() {
   const [showOldPassword, setShowOldPassword] = useState(false);
 
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const navigation = useNavigation();
 
   return (
     <ScrollView className="bg-black" contentContainerStyle={{flexGrow: 1}}>
@@ -27,7 +30,10 @@ export default function ChangePassScreen() {
 
       {/* Header */}
       <View className="flex-row items-center justify-between px-4 pt-8 pb-4 mt-8 mb-10">
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}>
           <Image source={icons.back} className="w-[28] h-[28]" />
         </TouchableOpacity>
         <Text
