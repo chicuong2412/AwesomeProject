@@ -10,6 +10,7 @@ import React, {useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {images} from '../../constants/images';
 import {icons} from '../../constants/icons';
+import {useNavigation} from '@react-navigation/native';
 
 export default function EditProfileScreen() {
   const [profile, setProfile] = useState({
@@ -19,6 +20,8 @@ export default function EditProfileScreen() {
     email: 'sahurlovetralalerotralala@gmail.com',
     dob: '30/11/2003',
   });
+
+  const navigation = useNavigation();
 
   const handleChange = (field: string, value: string) => {
     setProfile({...profile, [field]: value});
@@ -37,7 +40,10 @@ export default function EditProfileScreen() {
       />
       {/* Header */}
       <View className="flex-row items-center justify-between px-4 pt-8 pb-4 mt-8">
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}>
           <Image source={icons.back} className="w-[28] h-[28]" />
         </TouchableOpacity>
         <Text

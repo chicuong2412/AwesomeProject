@@ -16,6 +16,7 @@ import {icons} from '../../constants/icons.ts';
 import GradientText from '../../components/Text/GradientText';
 import WhiteText from '../../components/Text/WhiteText';
 import LinearGradient from 'react-native-linear-gradient';
+import {useNavigation, DrawerActions} from '@react-navigation/native';
 
 const recentlyViewed = [
   {title: 'Werewolves', poster_path: '/otXBlMPbFBRs6o2Xt6KX59Qw6dL.jpg'},
@@ -30,6 +31,8 @@ const lovedList = [
 ];
 
 export default function ProfileScreen() {
+  const navigation = useNavigation();
+
   return (
     <View className="bg-primary flex-1">
       <Image
@@ -41,7 +44,7 @@ export default function ProfileScreen() {
         className="absolute z-0"
       />
       <ScrollView
-        className="mt-6 mb-32"
+        className="mb-20"
         showsVerticalScrollIndicator={false}
         // stickyHeaderIndices={[0]}
         contentContainerStyle={{flexGrow: 1}}>
@@ -49,18 +52,27 @@ export default function ProfileScreen() {
           {/* Left side: Your + logo */}
           <View className="flex-row items-center">
             <Text
-              className="text-[24px]"
+              className="text-[20px]"
               style={{
-                fontFamily: 'DFVNGuardilostra',
+                fontFamily: 'DMSans-Bold',
+                // color: '#AB8BFF',
+                color: 'white',
+              }}>
+              My{' '}
+            </Text>
+            <Text
+              className="text-[20px]"
+              style={{
+                fontFamily: 'DMSans-Bold',
                 color: '#AB8BFF',
               }}>
-              My
+              Account
             </Text>
-            <Image
+            {/* <Image
               source={icons.logo}
               className="w-[28px] h-[28px] ml-2"
               resizeMode="contain"
-            />
+            /> */}
           </View>
 
           {/* Right side: Menu or others */}
@@ -81,7 +93,9 @@ export default function ProfileScreen() {
         resizeMode="contain"
       />
     </TouchableOpacity> */}
-            <TouchableOpacity className="w-8 h-8 justify-center items-center ml-5">
+            <TouchableOpacity
+              className="w-8 h-8 justify-center items-center ml-5"
+              onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
               <Image
                 source={icons.menu}
                 className="w-12 h-12 mr-3"

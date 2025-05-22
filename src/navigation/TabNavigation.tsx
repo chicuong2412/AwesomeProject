@@ -16,6 +16,7 @@ import TabButton from '../components/TabButton/TabButton';
 import SavedScreen from '../screens/SavedScreen/SavedScreen';
 import ProfileScreen from '../screens/ProfileScreen/ProfileScreen';
 import {images} from '../constants/images';
+import AppDrawerNavigator from './AppDrawerNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -37,7 +38,7 @@ export default function TabNavigation() {
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen name="Saved" component={SavedScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Profile" component={AppDrawerNavigator} />
     </Tab.Navigator>
   );
 }

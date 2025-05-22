@@ -22,7 +22,7 @@ export default function LoginScreen() {
   const [password, setPassword] = useState<string>();
   const [errors, setErrors] = useState();
 
-  const { setTokens} = useAuth();
+  const {setTokens} = useAuth();
 
   const navigation = useNavigation<LoginScreenNavigationProp>();
 
