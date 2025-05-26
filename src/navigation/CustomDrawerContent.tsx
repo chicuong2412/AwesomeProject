@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 // components/CustomDrawerContent.tsx
 import React from 'react';
 import {
@@ -22,8 +23,8 @@ export default function CustomDrawerContent(props: any) {
       </View>
 
       <TouchableOpacity
-        onPress={() => {
-          clearTokens();
+        onPress={async () => {
+          await clearTokens();
           navigation.navigate('Login');
         }}
         style={{

@@ -7,13 +7,13 @@ import React, {
 } from 'react';
 import {IAuth} from '../interfaces/interfaces';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
+import { Logout } from '../services/AuthServices';
 
 const AuthContext = createContext<IAuth>({
   loading: false,
   accessToken: null,
   refreshToken: null,
-  setTokens: (newAccessToken: string, newRefreshToken: string) => {},
+  setTokens: (_newAccessToken: string, _newRefreshToken: string) => {},
   clearTokens: () => {},
 });
 
@@ -24,32 +24,13 @@ export default function AuthProvider({children}: {children: ReactNode}) {
 
   useEffect(() => {
     const loadTokens = async () => {
+      setLoading(true);
       const storedAccessToken = await AsyncStorage.getItem('accessToken');
       const storedRefreshToken = await AsyncStorage.getItem('refreshToken');
 
-      if (storedRefreshToken != null) {
-        const rp = await axios({
-          method: 'POST',
-          url: 'https://b30a-2001-ee0-51dd-c300-da1-64e6-16dd-db47.ngrok-free.app/api/authenticate/refresh-token',
-          data: {
-            storedRefreshToken,
-          },
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            origin: 'https://localhost:8180',
-            Authorization: `Bearer ${storedAccessToken}`,
-          },
-        });
+      setAccessToken(storedAccessToken);
 
-        if (rp.status !== 400) {
-          setAccessToken(rp.data.token);
-          setRefreshToken(rp.data.refreshToken);
-
-          // await AsyncStorage.setItem(Config, rp.data.token);
-          await AsyncStorage.setItem('refreshToken', rp.data.refreshToken);
-        }
-      }
+      setRefreshToken(storedRefreshToken);
       setLoading(false);
     };
     loadTokens();
@@ -70,6 +51,7 @@ export default function AuthProvider({children}: {children: ReactNode}) {
   const clearTokens = async () => {
     setAccessToken(null);
     setRefreshToken(null);
+    await Logout();
     await AsyncStorage.removeItem('accessToken');
     await AsyncStorage.removeItem('refreshToken');
   };

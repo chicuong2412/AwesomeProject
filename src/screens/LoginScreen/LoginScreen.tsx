@@ -9,6 +9,7 @@ import {StackRootIn} from '../../interfaces/interfaces';
 import {useNavigation} from '@react-navigation/native';
 import {Login} from '../../services/AuthServices';
 import {useAuth} from '../../Auth/AuthProvider';
+import {AxiosError} from 'axios';
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
   StackRootIn,
@@ -20,7 +21,7 @@ export default function LoginScreen() {
 
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
-  const [errors, setErrors] = useState();
+  const [errors, setErrors] = useState<AxiosError | null>(null);
 
   const {setTokens} = useAuth();
 
@@ -35,16 +36,18 @@ export default function LoginScreen() {
       return;
     }
 
-    const rp = await Login(email, password);
+    try {
+      const rp = await Login(email, password);
 
-    if (rp.status === 400) {
-      setErrors(rp.data);
-      return;
+      setTokens(rp.data.token as string, rp.data.refreshToken as string);
+
+      navigation.navigate('MainStack');
+    } catch (error: any) {
+      const rp = error as AxiosError;
+      if (rp.status === 400) {
+        setErrors(rp);
+      }
     }
-
-    await setTokens(rp.data.token as string, rp.data.refreshToken as string);
-
-    navigation.navigate('MainStack');
   };
 
   return (
@@ -134,9 +137,11 @@ export default function LoginScreen() {
           </Text>
         </TouchableOpacity>
 
-        {errors ? (
-          <View className="flex-row items-center bg-[#23233B] rounded-lg mb-6 px-4">
-            <Text>{errors}</Text>
+        {errors != null ? (
+          <View className="flex-row items-center rounded-lg mb-6 px-4">
+            <Text className="text-red-600">
+              {errors.response?.data as string}
+            </Text>
           </View>
         ) : (
           ''

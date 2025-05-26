@@ -85,8 +85,8 @@ type StackRootIn = {
   Login: undefined;
   Register: undefined;
   MainForgotPassScreen: undefined;
-  EnterCodeScreen: undefined;
-  SetPassScreen: undefined;
+  EnterCodeScreen: {resetPassToken: string | null};
+  SetPassScreen: {resetPassToken: string | null};
 };
 
 export interface EpisodeItemInfo {

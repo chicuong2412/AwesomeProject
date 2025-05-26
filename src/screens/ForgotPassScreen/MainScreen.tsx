@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {View, Text, Image, TouchableOpacity, TextInput} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {icons} from '../../constants/icons';
@@ -7,7 +8,6 @@ import {FetchForgotPassword} from '../../services/AuthServices';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {StackRootIn} from '../../interfaces/interfaces';
 import {useNavigation} from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type MainForgotNavigationProp = NativeStackNavigationProp<
   StackRootIn,
@@ -17,33 +17,50 @@ type MainForgotNavigationProp = NativeStackNavigationProp<
 export default function MainForgotPassScreen() {
   const [email, setEmail] = useState<string>();
   const navigation = useNavigation<MainForgotNavigationProp>();
+  const [helperText, setHelperText] = useState('');
 
-  const {data, errors, loading, refetch, reset} = useFetch<string>(() => {
+  const {data, errors, refetch} = useFetch<string>(() => {
     if (email === undefined) {
       throw new Error('Please fill in the email');
     }
     return FetchForgotPassword(email);
   });
 
-  const handlePressedForgot = () => {
+  const handlePressedForgot = async () => {
     refetch();
   };
 
   useEffect(() => {
-    async function LoginSuccessful() {
-      await AsyncStorage.setItem('resetPassToken', data!);
+    async function GetPasscodeSuccess() {
+      navigation.navigate('EnterCodeScreen', {
+        resetPassToken: data,
+      });
     }
-    if (data !== null && errors === null) {
-      LoginSuccessful();
+    if (errors !== null) {
+      switch (errors.response?.status) {
+        case 404:
+          setHelperText('This email does not exist!!!');
+          break;
+        case 429:
+          setHelperText('Too many request to this email, please wait!!!');
+          break;
+        default:
+          setHelperText('Something is wrong');
+          navigation.navigate('MainStack');
+          break;
+      }
+      return;
     }
-  }, [data, errors]);
+    if (data !== null) {
+      GetPasscodeSuccess();
+    }
+  }, [data, errors, navigation]);
 
   return (
     <View className="bg-primary flex-1 pt-[10%]">
       <Image
         source={images.bg}
         resizeMode="cover"
-        // eslint-disable-next-line react-native/no-inline-styles
         style={{
           width: '100%',
         }}
@@ -78,7 +95,7 @@ export default function MainForgotPassScreen() {
             source={icons.mail}
             className="mx-auto w-[18] h-[18]"
             resizeMode="contain"
-          />{' '}
+          />
           <TextInput
             placeholder="Email"
             placeholderTextColor="#A3A3A3"
@@ -98,6 +115,11 @@ export default function MainForgotPassScreen() {
             Send
           </Text>
         </TouchableOpacity>
+        {errors ? (
+          <Text className="text-red-600 text-lg text-left mt-5">{helperText}</Text>
+        ) : (
+          ''
+        )}
       </View>
     </View>
   );
