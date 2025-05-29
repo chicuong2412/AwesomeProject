@@ -1,4 +1,4 @@
-import {View, Text, Image, FlatList} from 'react-native';
+import {View, Text, Image, FlatList, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {icons} from '../../constants/icons';
 import {images} from '../../constants/images';
@@ -32,6 +32,15 @@ const dataTest = [
     poster_path: '/otXBlMPbFBRs6o2Xt6KX59Qw6dL.jpg',
     vote_average: 4.6,
   },
+  {
+    id: '1234',
+    title: 'Werewolves',
+    genre_ids: [],
+    overview:
+      'Werewolves” is a horror movie about a town haunted by deadly werewolf attacks. A young detective must uncover the truth before the next full moon.',
+    poster_path: '/otXBlMPbFBRs6o2Xt6KX59Qw6dL.jpg',
+    vote_average: 4.6,
+  },
 ];
 
 export default function SavedScreen() {
@@ -52,7 +61,7 @@ export default function SavedScreen() {
       <View className="px-5">
         <Image
           source={icons.logo}
-          className="mx-auto my-5 w-[80] h-[80]"
+          className="mx-auto mt-12 mb-2 w-[80] h-[80]"
           resizeMode="contain"
         />
         <SearchBar
@@ -61,9 +70,24 @@ export default function SavedScreen() {
           placeholder="Search through over 300+ movies online"
         />
       </View>
-      <View className="flex-row items-center gap-2 mt-16 px-5 mb-5">
-        <Text className="text-xl text-white font-bold">
-          My <Text className="text-[#D1C0FF]">Destiny</Text>
+      <View className="flex-row items-center gap-2 mt-10 px-5 mb-5">
+        <Text
+          className="text-2xl text-white"
+          style={{
+            fontFamily: 'DMSans-Bold',
+            fontWeight: 'bold',
+            fontSize: 20,
+          }}>
+          My{' '}
+          <Text
+            className="text-[#D1C0FF]"
+            style={{
+              fontFamily: 'DMSans-Bold',
+              fontWeight: 'bold',
+              fontSize: 20,
+            }}>
+            Destiny
+          </Text>
         </Text>
         <Image
           className="w-[24] h-[24]"
@@ -95,31 +119,62 @@ export default function SavedScreen() {
                 />
               </View>
               <View className="w-[60%]">
-                <Text className="text-white text-xs font-bold">
+                <Text
+                  className="text-white"
+                  style={{
+                    fontFamily: 'DMSans-Bold',
+                    fontWeight: 'bold',
+                    fontSize: 14,
+                    marginBottom: 2,
+                  }}>
                   {item.title}
                 </Text>
-                <View className="flex-row gap-2">
+                <View
+                  className="flex-row gap-2"
+                  style={{
+                    marginBottom: 2,
+                  }}>
                   <View className="flex-row items-center">
                     <Image className="h-[10] w-[10]" source={icons.star} />
-                    <Text className="text-white font-bold text-s">
+                    <Text
+                      className="text-white"
+                      style={{
+                        fontFamily: 'DMSans-Bold',
+                        fontWeight: 'bold',
+                        fontSize: 10,
+                      }}>
                       {item.vote_average}
                     </Text>
                   </View>
                   <View>
-                    <Text className="text-light-300 text-s">Movie * Action</Text>
+                    <Text
+                      className="text-light-300"
+                      style={{
+                        fontFamily: 'DMSans-Bold',
+                        fontWeight: 'bold',
+                        fontSize: 10,
+                      }}>
+                      Action • Movie
+                    </Text>
                   </View>
                 </View>
-                <Text numberOfLines={4} className="text-light-300 text-s">
+                <Text
+                  numberOfLines={4}
+                  className="text-light-300"
+                  style={{
+                    fontFamily: 'DMSans-Bold',
+                    fontSize: 10,
+                  }}>
                   {item.overview}
                 </Text>
               </View>
-              <View className="w-[10%] justify-center items-center">
+              <TouchableOpacity className="w-[10%] justify-center items-center">
                 <Image
                   className="w-[50] h-[50]"
                   resizeMode="contain"
                   source={icons.playIcon}
                 />
-              </View>
+              </TouchableOpacity>
             </View>
           );
         }}

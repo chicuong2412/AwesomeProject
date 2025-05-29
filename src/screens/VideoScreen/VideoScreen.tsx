@@ -7,8 +7,8 @@ import {Season, StackRootIn} from '../../interfaces/interfaces';
 import EpisodeDisplay from '../../components/EpisodeDisplay/EpisodeDisplay';
 import {images} from '../../constants/images';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useNavigation } from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {useNavigation} from '@react-navigation/native';
 
 type NavigationProp = NativeStackNavigationProp<StackRootIn, 'Home'>;
 
@@ -120,10 +120,12 @@ export default function VideoScreen() {
     <SafeAreaView
       className="flex-1 bg-primary"
       edges={['bottom', 'left', 'right', 'top']}>
-      <TouchableOpacity className="absolute top-[30] right-4 opacity-25 z-50" onPress={() => {
-        navigate.goBack();
-      }}>
-        <View 
+      <TouchableOpacity
+        className="absolute top-[30] right-4 opacity-25 z-50"
+        onPress={() => {
+          navigate.goBack();
+        }}>
+        <View
         // className="w-[10] h-[10] bg-black"
         >
           <MaterialIcons name="close" color="#D9D9D9" size={30} />
@@ -154,10 +156,27 @@ export default function VideoScreen() {
         stickyHeaderIndices={[0]}
         className="bg-primary"> */}
       <View className="px-4">
-        <Text className="text-white font-bold text-3xl mb-1">One piece</Text>
+        <Text
+          className="text-white text-3xl mb-1"
+          style={{
+            fontFamily: 'DMSans-Bold',
+            fontWeight: 'bold',
+          }}>
+          One piece
+        </Text>
         <View className="w-[200] h-[6] bg-[#AB8BFF]" />
-        <Text className="text-white text-2xl mt-5 mb-5">Episode 1</Text>
-        <Text className="text-base font-light text-[#D9D9D9] mb-5">
+        <Text
+          className="text-white text-2xl mt-1 mb-5"
+          style={{
+            fontFamily: 'DMSans-Medium',
+          }}>
+          Episode 1
+        </Text>
+        <Text
+          className="text-base font-light text-[#D9D9D9] mb-5"
+          style={{
+            fontFamily: 'DMSans-Medium',
+          }}>
           Hải tặc trẻ tuổi Monkey D. Luffy mâu thuẫn với những gã hải tặc khác
           khi chúng tấn công một du thuyền. May thay, Luffy sở hữu sức mạnh của
           trái cao su.

@@ -1,11 +1,12 @@
+import { AxiosError } from 'axios';
 import {useEffect, useState} from 'react';
 
-export function useFetch<T>(fetchData: () => Promise<T>, autoFetch = true) {
+export function useFetch<T>(fetchData: () => Promise<T>, autoFetch = false) {
   const [data, setData] = useState<T | null>(null);
 
   const [loading, setLoading] = useState(true);
 
-  const [errors, setErrors] = useState<Error | null>(null);
+  const [errors, setErrors] = useState<AxiosError | null>(null);
 
   const fetchDataFe = async () => {
     try {
@@ -13,8 +14,7 @@ export function useFetch<T>(fetchData: () => Promise<T>, autoFetch = true) {
       const repData = await fetchData();
       setData(repData);
     } catch (error) {
-        setErrors((error instanceof Error ? error : new Error('An error just happened!!!')));
-
+      setErrors(error as AxiosError);
     } finally {
       setLoading(false);
     }

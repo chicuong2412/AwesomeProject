@@ -1,3 +1,8 @@
+project.ext.envConfigFiles = [
+        debug: ".env",
+        release: ".env",
+        anothercustombuild: ".env",
+]
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
@@ -121,3 +126,5 @@ dependencies {
         implementation jscFlavor
     }
 }
+
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"

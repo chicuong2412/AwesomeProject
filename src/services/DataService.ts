@@ -13,7 +13,7 @@ export async function fetchData(url: string) {
 
   const reponse = await fetch(TMDB_CONFIG.BASE_URL + '/' + url, {
     headers: TMDB_CONFIG.headers,
-    method: "GET"
+    method: 'GET',
   });
 
   if (!reponse.ok) {
@@ -21,13 +21,11 @@ export async function fetchData(url: string) {
   }
 
   const data = await reponse.json();
-  
 
   return data.results;
 }
 
-export async function fetchDataMovieDetail(id : string) {
-
+export async function fetchDataMovieDetail(id: string) {
   const reponse = await fetch(TMDB_CONFIG.BASE_URL + '/movie/' + id, {
     headers: TMDB_CONFIG.headers,
   });

@@ -44,21 +44,22 @@ export default function TabButton({
       className="justify-center items-center flex flex-1 flex-row h-[52]"
       key={routeName}
       onPress={onPress}
-      onLongPress={onLongPress}
-      >
+      onLongPress={onLongPress}>
       <Animated.View style={animatedIconStyle}>
         {iconsDisplayed[routeName as keyof typeof iconsDisplayed](
           isFocused ? '#151312' : '#A8B5DB',
         )}
       </Animated.View>
-      {isFocused && <Text
-        className={
-          isFocused
-            ? 'text-[#151312] text-base font-semibold ml-3'
-            : 'text-white'
-        }>
-        {routeName}
-      </Text>}
+      {isFocused && (
+        <Text
+          className={
+            isFocused
+              ? 'text-[#151312] text-base font-semibold ml-3'
+              : 'text-white'
+          }>
+          {routeName}
+        </Text>
+      )}
     </TouchableOpacity>
   );
 }
