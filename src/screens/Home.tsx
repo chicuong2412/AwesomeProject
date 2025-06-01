@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   View,
   Text,
@@ -6,7 +7,7 @@ import {
   FlatList,
   ActivityIndicator,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 // import {useNavigation} from '@react-navigation/native';
 // import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 // import {RootNaviagtion} from '../types/interfaces.ts';
@@ -17,20 +18,15 @@ import MovieDisplay from '../components/MovieDisplay/MovieDisplay.tsx';
 import {fetchData} from '../services/DataService.ts';
 import {useFetch} from '../hooks/useFetch.ts';
 import {Movie} from '../interfaces/interfaces';
-import SearchBar from '../components/SearchBar/SearchBar.tsx';
 
 export default function Home() {
-  // const navigate = useNavigation();
-  // const navigate = useNavigation<NativeStackNavigationProp<RootNaviagtion>>();
-  const [searchValue, setSearchValue] = useState('');
-
   const {
     data: movies = [],
     loading,
     refetch: loadMovies,
     errors,
   } = useFetch<Movie[]>(() => {
-    return fetchData('discover/movie');
+    return fetchData('movies/discover');
   }, false);
 
   useEffect(() => {
@@ -43,7 +39,6 @@ export default function Home() {
       <Image
         source={images.bg}
         resizeMode="cover"
-        // eslint-disable-next-line react-native/no-inline-styles
         style={{
           width: '100%',
         }}
@@ -56,11 +51,11 @@ export default function Home() {
           className="mx-auto mt-12 mb-2 w-[80] h-[80]"
           resizeMode="contain"
         />
-        <SearchBar
+        {/* <SearchBar
           searchValue={searchValue}
           setSearchValue={setSearchValue}
           placeholder="Search through over 300+ movies online"
-        />
+        /> */}
 
         <Image
           source={images.Posters}
@@ -83,7 +78,6 @@ export default function Home() {
           }}
           keyExtractor={item => item.id.toString()}
           numColumns={3}
-          // eslint-disable-next-line react-native/no-inline-styles
           columnWrapperStyle={{
             justifyContent: 'flex-start',
             gap: 20,

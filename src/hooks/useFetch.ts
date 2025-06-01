@@ -4,13 +4,14 @@ import {useEffect, useState} from 'react';
 export function useFetch<T>(fetchData: () => Promise<T>, autoFetch = false) {
   const [data, setData] = useState<T | null>(null);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [errors, setErrors] = useState<AxiosError | null>(null);
 
   const fetchDataFe = async () => {
     try {
       setLoading(true);
+      reset();
       const repData = await fetchData();
       setData(repData);
     } catch (error) {
@@ -29,7 +30,8 @@ export function useFetch<T>(fetchData: () => Promise<T>, autoFetch = false) {
     if (autoFetch) {
       fetchDataFe();
     }
-  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoFetch]);
 
   return {data, loading, refetch: fetchDataFe, reset, errors};
 }

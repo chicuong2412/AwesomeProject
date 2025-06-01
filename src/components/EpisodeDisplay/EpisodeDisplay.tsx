@@ -1,21 +1,26 @@
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {EpisodeItemInfo} from '../../interfaces/interfaces';
 import {images} from '../../constants/images';
+import Config from 'react-native-config';
 
 export default function EpisodeDisplay({
   item,
   index,
+  setSelectedEpisode
 }: {
   item: EpisodeItemInfo;
   index: number;
+  setSelectedEpisode: React.Dispatch<React.SetStateAction<EpisodeItemInfo | null>>;
 }) {
   return (
-    <View className="flex-wrap mb-4 w-full" key={index}>
-      <View className="w-full h-[86] flex-row flex-wrap gap-[3%]">
+    <TouchableOpacity className="flex-wrap mb-4 w-full" key={index} onPress={() => {
+      setSelectedEpisode(item);
+    }}>
+      <View className="w-full max-h-[86] flex-row flex-wrap gap-[3%]">
         <View className="w-[37%]">
           <Image
-            source={images.imageTest}
+            source={{uri: `${Config.PUBLIC_LINK}/api/images/${item.posterPath}` || images.Posters}}
             className="w-full h-full rounded-md mr-4"
             // resizeMode="cover"
           />
@@ -28,15 +33,15 @@ export default function EpisodeDisplay({
               fontFamily: 'DMSans-Bold',
               fontWeight: 'bold',
             }}>
-            {item.name}
+            {item.title}
           </Text>
-          <Text
+          {/* <Text
             className="text-white italic text-sm"
             style={{
               fontFamily: 'DMSans-Medium',
             }}>
             {item.duration} minutes
-          </Text>
+          </Text> */}
           {/* </View> */}
         </View>
       </View>
@@ -49,6 +54,6 @@ export default function EpisodeDisplay({
           {item.overview}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }

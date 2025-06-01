@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import {View, Text, Image, ScrollView, TouchableOpacity} from 'react-native';
-import React, {useEffect} from 'react';
+import React, { useEffect} from 'react';
 import {RouteProp, useNavigation} from '@react-navigation/native';
 import {useFetch} from '../../hooks/useFetch';
 import {fetchDataMovieDetail} from '../../services/DataService';
@@ -8,6 +8,8 @@ import {icons} from '../../constants/icons';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {MovieDetails, StackRootIn} from '../../interfaces/interfaces';
+import Config from 'react-native-config';
+import api from '../../axios/AxiosConfig';
 
 type NavigationProp = NativeStackNavigationProp<StackRootIn, 'Details'>;
 
@@ -17,30 +19,43 @@ export default function DetailScreen({
   route: RouteProp<StackRootIn, 'Details'>;
 }) {
   const {itemId} = route.params;
-  console.log(itemId);
 
   const navigate = useNavigation<NavigationProp>();
 
   const {data, refetch} = useFetch<MovieDetails>(() => {
     return fetchDataMovieDetail(itemId.toString());
   }, false);
+
+  const [IsFavorite, setIsFavorite] = React.useState(false);
+
   useEffect(() => {
     refetch();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    api
+      .post(`${Config.PUBLIC_LINK}/api/users/checkFavorite/${itemId}`)
+      .then(response => {
+        console.log(response);
+        setIsFavorite(response.data.data);
+      });
+  }, [itemId]);
 
   return (
     <View className="bg-primary flex-1">
       <View className="h-[40%] mb-3">
         <Image
           source={{
-            uri: 'https://image.tmdb.org/t/p/original/' + data?.backdrop_path,
+            uri: `${Config.PUBLIC_LINK}/api/images/` + data?.backdropPath,
           }}
           className="w-full h-full"
         />
         <TouchableOpacity
           onPress={() => {
-            navigate.navigate('Video');
+            navigate.navigate('Video', {
+              itemId: itemId});
           }}>
           <View className="w-[50] h-[50] bg-white justify-center absolute flex-row items-center rounded-[100%] bottom-[-25] right-[30]">
             <Image
@@ -53,12 +68,12 @@ export default function DetailScreen({
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          className="absolute top-[20] left-2 opacity-40"
+          className="absolute top-[20] left-2 opacity-40 font-bold"
           onPress={() => {
             navigate.goBack();
           }}>
           {/* <View className="absolute top-[10]"> */}
-          <MaterialIcons name="keyboard-backspace" color="#D9D9D9" size={30} />
+          <MaterialIcons name="keyboard-backspace" color="black" size={30} />
           {/* </View> */}
         </TouchableOpacity>
         {/* <Icon name="rocket" size={30} color="#900" /> */}
@@ -79,7 +94,7 @@ export default function DetailScreen({
           style={{
             fontFamily: 'DMSans-Medium',
           }}>
-          {data?.release_date.split('-')[0]} • {data?.status} • {data?.runtime}{' '}
+          {data?.releaseDate.split('-')[0]} • {data?.status} • {data?.runtime}{' '}
           minutes
         </Text>
         <View className="mb-8 flex-row gap-2">
@@ -92,7 +107,7 @@ export default function DetailScreen({
                   fontFamily: 'DMSans-Bold',
                   fontWeight: 'bold',
                 }}>
-                {Math.round(data?.vote_average || 0)}
+                {Math.round(data?.voteAverage || 0)}
               </Text>
               <Text
                 className="text-[#A8B5DB]"
@@ -100,20 +115,45 @@ export default function DetailScreen({
                   fontFamily: 'DMSans-Bold',
                   fontWeight: 'bold',
                 }}>
-                /10 ({data?.vote_count})
+                /10 ({data?.voteCount})
               </Text>
             </View>
           </View>
-          <View className="max-w-12 text-[#A8B5DB] h-[30]">
-            <View className="flex-row gap-1 justify-center items-center px-5 bg-[#221F3D] h-full rounded">
-              <Image source={icons.save} />
+          <View className="text-[#A8B5DB] h-[30]">
+            <View className="flex-row gap-1 justify-center items-center h-full rounded">
+              <TouchableOpacity
+                onPress={() => {
+                  if (IsFavorite) {
+                    api
+                      .post(
+                        `${Config.PUBLIC_LINK}/api/users/remove-favorite-movie/${itemId}`,
+                      )
+                      .then(() => {
+                        setIsFavorite(false);
+                      });
+                  } else {
+                    api
+                      .post(
+                        `${Config.PUBLIC_LINK}/api/users/add-favorite-movie/${itemId}`,
+                      )
+                      .then(() => {
+                        setIsFavorite(true);
+                      });
+                  }
+                }}>
+                <Image
+                  source={IsFavorite ? icons.love : icons.save}
+                  className="w-8 h-8"
+                  style={{borderRadius: 50}}
+                />
+              </TouchableOpacity>
               <Text
                 className="text-[#A8B5DB]"
                 style={{
                   fontFamily: 'DMSans-Bold',
                   fontWeight: 'bold',
                 }}>
-                1
+                {IsFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
               </Text>
             </View>
           </View>
@@ -150,7 +190,7 @@ export default function DetailScreen({
                 fontWeight: 'bold',
               }}>
               {new Date(
-                data?.release_date.toString() || '2024-12-11',
+                data?.releaseDate.toString() || '2024-12-11',
               ).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
@@ -173,7 +213,7 @@ export default function DetailScreen({
                 fontFamily: 'DMSans-Bold',
                 fontWeight: 'bold',
               }}>
-              {data?.status}
+              {data?.status ? 'Released' : 'Ongoing'}
             </Text>
           </View>
         </View>
@@ -186,7 +226,7 @@ export default function DetailScreen({
             Generes
           </Text>
           <View className="flex-row gap-2">
-            {data?.genres.map(({name}, index) => {
+            {data?.generes.map(({name}, index) => {
               return (
                 <Text
                   key={index}
@@ -210,7 +250,7 @@ export default function DetailScreen({
             Countries
           </Text>
           <View className="flex-row gap-2 flex-wrap">
-            {data?.production_countries.map(({name}, index) => {
+            {data?.productionCompanies.map(({name}, index) => {
               return (
                 <Text
                   key={index}
@@ -273,10 +313,10 @@ export default function DetailScreen({
             style={{
               fontFamily: 'DMSans-Medium',
             }}>
-            Countries
+            Production Companies
           </Text>
           <View className="flex-row gap-2 flex-wrap">
-            {data?.production_companies.map(({name}, index) => {
+            {data?.productionCompanies.map(({name}, index) => {
               return (
                 <Text
                   key={index}

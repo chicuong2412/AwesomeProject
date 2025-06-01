@@ -1,13 +1,14 @@
 /* eslint-disable react-native/no-inline-styles */
 import {View, Text, Image, TextInput, TouchableOpacity} from 'react-native';
-import React, { useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {icons} from '../../constants/icons';
 import {images} from '../../constants/images';
 import {RouteProp, useNavigation} from '@react-navigation/native';
 import {StackRootIn} from '../../interfaces/interfaces';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import { ResetPassword } from '../../services/AuthServices';
-import { useFetch } from '../../hooks/useFetch';
+import {ResetPassword} from '../../services/AuthServices';
+import {useFetch} from '../../hooks/useFetch';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 type SetPassScreenStack = NativeStackNavigationProp<
   StackRootIn,
@@ -28,8 +29,7 @@ export default function SetPassScreen({
   const [confirmPassword, setConfirmPassword] = useState<string | null>(null);
 
   const {data, errors, refetch} = useFetch(() => {
-    return ResetPassword(
-      resetPassToken!, newPassword!);
+    return ResetPassword(resetPassToken!, newPassword!);
   }, false);
 
   useEffect(() => {
@@ -155,7 +155,9 @@ export default function SetPassScreen({
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity className="rounded-full bg-[#A084E8] " onPress={handleUpdatePassword}>
+        <TouchableOpacity
+          className="rounded-full bg-[#A084E8] "
+          onPress={handleUpdatePassword}>
           <Text className="text-white text-center font-bold text-lg py-4">
             Update
           </Text>
@@ -167,6 +169,16 @@ export default function SetPassScreen({
         ) : (
           ''
         )}
+      </View>
+      <View className="absolute bottom-[40] self-center">
+        <TouchableOpacity
+          className="py-3 mr-2 d-flex flex-row items-center"
+          onPress={() => navigation.navigate('Login')}>
+          <MaterialIcons name="arrow-left" size={24} color="white" />
+          <Text className="text-white font-semibold text-center text-xl">
+            Back to Login
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

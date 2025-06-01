@@ -14,7 +14,6 @@ import Animated, {
 } from 'react-native-reanimated';
 import TabButton from '../components/TabButton/TabButton';
 import SavedScreen from '../screens/SavedScreen/SavedScreen';
-import ProfileScreen from '../screens/ProfileScreen/ProfileScreen';
 import {images} from '../constants/images';
 import AppDrawerNavigator from './AppDrawerNavigator';
 
@@ -60,7 +59,7 @@ const MyTabBar = ({state, navigation}: BottomTabBarProps) => {
     return {
       transform: [
         {
-          translateX: tabPositionX.value,
+          translateX: tabPositionX.value - 7.5,
         },
       ],
     };
@@ -78,7 +77,7 @@ const MyTabBar = ({state, navigation}: BottomTabBarProps) => {
             // backgroundColor: '#D6C7FF',
             borderRadius: 30,
             height: dimension.height,
-            width: buttonWidth + 20,
+            width: buttonWidth + 15,
           },
         ]}>
         <ImageBackground

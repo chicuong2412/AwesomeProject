@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   View,
   Text,
@@ -6,10 +7,7 @@ import {
   FlatList,
   ActivityIndicator,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-// import {useNavigation} from '@react-navigation/native';
-// import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-// import {RootNaviagtion} from '../types/interfaces.ts';
+import React, { useEffect, useState} from 'react';
 import {images} from '../../constants/images.ts';
 import {icons} from '../../constants/icons.ts';
 import SearchBar from '../../components/SearchBar/SearchBar.tsx';
@@ -19,39 +17,29 @@ import {useFetch} from '../../hooks/useFetch.ts';
 import {Movie} from '../../interfaces/interfaces';
 
 export default function SearchScreen() {
-  // const navigate = useNavigation();
-  // const navigate = useNavigation<NativeStackNavigationProp<RootNaviagtion>>();
-
   const [searchValue, setSearchValue] = useState('');
 
   const {
     data: movies = [],
-    reset,
     loading,
     refetch: loadMovies,
     errors,
   } = useFetch<Movie[]>(() => {
     return fetchData(
-      (searchValue.localeCompare('') !== 0 ? 'search' : 'discover') +
-        '/movie?query=' +
-        searchValue,
+      searchValue.localeCompare('') !== 0
+        ? 'movies/search' + '?Search=' + searchValue
+        : 'movies/discover',
     );
   }, false);
 
   useEffect(() => {
     const timeOut = setTimeout(async () => {
-      if (searchValue.trim()) {
-        await loadMovies();
-      } else {
-        reset();
-      }
+      console.log(searchValue.trim());
+      await loadMovies();
     }, 500);
 
     return () => clearTimeout(timeOut);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchValue]);
-
-  console.log(movies);
 
   return (
     <View className="bg-primary flex-1">

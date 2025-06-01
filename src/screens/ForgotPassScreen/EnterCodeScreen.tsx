@@ -9,6 +9,7 @@ import {StackRootIn} from '../../interfaces/interfaces';
 import {RouteProp, useNavigation} from '@react-navigation/native';
 import {useFetch} from '../../hooks/useFetch';
 import {ConfirmPasscodeFetch} from '../../services/AuthServices';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 type EnterResetCodeScreen = NativeStackNavigationProp<
   StackRootIn,
@@ -196,6 +197,16 @@ export default function EnterCodeScreen({
         ) : (
           ''
         )}
+      </View>
+      <View className="absolute bottom-[40] self-center">
+        <TouchableOpacity
+          className="py-3 mr-2 d-flex flex-row items-center"
+          onPress={() => navigation.navigate('Login')}>
+          <MaterialIcons name="arrow-left" size={24} color="white" />
+          <Text className="text-white font-semibold text-center text-xl">
+            Back to Login
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

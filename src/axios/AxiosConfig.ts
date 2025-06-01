@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import Config from 'react-native-config';
 
 // Create an axios instance
@@ -10,16 +10,6 @@ const api = axios.create({
     Accept: 'application/json',
   },
 });
-
-async function getAccessToken() {
-  return await AsyncStorage.getItem('accessToken');
-}
-async function getRefreshToken() {
-  return await AsyncStorage.getItem('refreshToken');
-}
-async function setAccessToken(token: string) {
-  await AsyncStorage.setItem('accessToken', token);
-}
 
 // Request interceptor to add JWT
 api.interceptors.request.use(
@@ -54,9 +44,10 @@ api.interceptors.response.use(
     const originalRequest = error.config;
 
     // If 401 and not already trying to refresh
+    const accessToken = await AsyncStorage.getItem('accessToken');
     if (
       error.response &&
-      (error.response.status === 401) &&
+      (error.response.status === 401 && accessToken != null) &&
       !originalRequest._retry
     ) {
       if (isRefreshing) {
@@ -75,19 +66,25 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
+        console.log('Refreshing token...');
         // Call your refresh endpoint
         const refreshToken = await AsyncStorage.getItem('refreshToken');
         const res = await axios.post(
-          `${Config.PUBLIC_LINK}}/api/authenticate/refresh-token`,
+          `${Config.PUBLIC_LINK}/api/authenticate/refresh-token`,
           {
-            refreshToken,
+            requestToken: refreshToken,
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+            },
           },
         );
-
         const newAccessToken = res.data.token;
         const newRefreshToken = res.data.refreshToken;
-        setAccessToken(newAccessToken);
         await AsyncStorage.setItem('refreshToken', newRefreshToken);
+        await AsyncStorage.setItem('accessToken', newAccessToken);
 
         api.defaults.headers.common.Authorization = 'Bearer ' + newAccessToken;
         processQueue(null, newAccessToken);
@@ -95,9 +92,11 @@ api.interceptors.response.use(
         return api(originalRequest);
       } catch (err) {
         processQueue(err, null);
-
-        await AsyncStorage.removeItem('accessToken');
-        await AsyncStorage.removeItem('refreshToken');
+        const error = err as AxiosError;
+        console.log(error.toJSON());
+        console.error('Token refresh failed:', error.message);
+        // await AsyncStorage.removeItem('accessToken');
+        // await AsyncStorage.removeItem('refreshToken');
 
         return Promise.reject(err);
       } finally {

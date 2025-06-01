@@ -1,11 +1,13 @@
+/* eslint-disable react-native/no-inline-styles */
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {icons} from '../../constants/icons';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Movie, StackRootIn} from '../../interfaces/interfaces';
+import Config from 'react-native-config';
 
-type NavigationProp = NativeStackNavigationProp<StackRootIn, 'Home'>;
+type NavigationProp = NativeStackNavigationProp<StackRootIn, 'MainStack'>;
 
 export default function MovieDisplay({item}: {item: Movie}) {
   const navigation = useNavigation<NavigationProp>();
@@ -21,7 +23,7 @@ export default function MovieDisplay({item}: {item: Movie}) {
       <View className="">
         <Image
           source={{
-            uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
+            uri: `${Config.PUBLIC_LINK}/api/images/${item.posterPath}`,
           }}
           className="w-full h-52 rounded-lg"
           resizeMode="cover"
@@ -51,7 +53,7 @@ export default function MovieDisplay({item}: {item: Movie}) {
               fontWeight: 'bold',
               fontSize: 11,
             }}>
-            {Math.round(item.vote_average)}/10
+            {Math.round(item.voteAverage)}/10
           </Text>
         </View>
 
@@ -61,7 +63,7 @@ export default function MovieDisplay({item}: {item: Movie}) {
             fontFamily: 'DMSans-Bold',
             fontSize: 10,
           }}>
-          Action • Movie
+          Action • {item.hasSeason ? 'Series TV' : 'Movie'}
         </Text>
       </View>
     </TouchableOpacity>

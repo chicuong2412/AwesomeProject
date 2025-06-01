@@ -1,13 +1,6 @@
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
-import React from 'react';
-import {useEffect} from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import {View, Text, Image, ScrollView, TouchableOpacity} from 'react-native';
+import React, {useEffect} from 'react';
 // import {useNavigation} from '@react-navigation/native';
 // import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 // import {RootNaviagtion} from '../types/interfaces.ts';
@@ -17,6 +10,14 @@ import GradientText from '../../components/Text/GradientText';
 import WhiteText from '../../components/Text/WhiteText';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation, DrawerActions} from '@react-navigation/native';
+import {useFetch} from '../../hooks/useFetch.ts';
+import {
+  fetchDataMovieFavoriteList,
+  fetchMyProfile,
+} from '../../services/DataService.ts';
+import {Movie, UserProfile} from '../../interfaces/interfaces';
+import Config from 'react-native-config';
+import LovedMovieItem from '../../components/LovedMovieItem/LovedMovieItem.tsx';
 
 const recentlyViewed = [
   {title: 'Werewolves', poster_path: '/otXBlMPbFBRs6o2Xt6KX59Qw6dL.jpg'},
@@ -24,14 +25,27 @@ const recentlyViewed = [
   {title: 'Red One', poster_path: '/otXBlMPbFBRs6o2Xt6KX59Qw6dL.jpg'},
 ];
 
-const lovedList = [
-  {title: 'Werewolves', poster_path: '/otXBlMPbFBRs6o2Xt6KX59Qw6dL.jpg'},
-  {title: 'Aftermath', poster_path: '/otXBlMPbFBRs6o2Xt6KX59Qw6dL.jpg'},
-  {title: 'Red One', poster_path: '/otXBlMPbFBRs6o2Xt6KX59Qw6dL.jpg'},
-];
-
 export default function ProfileScreen() {
   const navigation = useNavigation();
+
+  const {data, refetch, loading, errors} = useFetch<Movie[]>(() => {
+    return fetchDataMovieFavoriteList();
+  }, false);
+
+  const {
+    data: profileData,
+    loading: profileLoading,
+    errors: profileErrors,
+    refetch: fetchProfile,
+  } = useFetch<UserProfile>(() => {
+    return fetchMyProfile();
+  });
+
+  useEffect(() => {
+    refetch();
+    fetchProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <View className="bg-primary flex-1">
@@ -132,29 +146,33 @@ export default function ProfileScreen() {
             <View
               className="bg-[#12082A] mt-2 w-full items-center py-10 px-4"
               style={{borderRadius: 50}}>
-              <GradientText text="14 hours" fontSize={60} />
+              <GradientText text={`${Math.floor((profileData?.screenTime || 0) / 60)} hours`} fontSize={60} />
             </View>
           </LinearGradient>
 
           <View className="absolute top-0 items-center z-10">
             <View className=" rounded-lg">
-              <Image source={icons.avt} className="w-20 h-20 rounded-lg" />
+              <Image source={(profileData?.avatar != null && profileData.avatar) ? {
+                uri: Config.PUBLIC_LINK + '/api/images/avatar/' + profileData?.avatar,
+              } : icons.avt} className="w-20 h-20 rounded-lg" />
             </View>
             <Text
               className="text-white mt-2 font-semibold"
               style={{fontFamily: 'Montserrat-Bold'}}>
-              plgkiet
+              {profileData?.username === '' || profileData?.username === null
+                ? profileData?.email
+                : profileData?.username}
             </Text>
             <Text
               className="text-gray-400 text-xs"
               style={{fontFamily: 'Montserrat-Bold'}}>
-              ID: 1234567890
+              ID: {profileData?.id}
             </Text>
           </View>
         </View>
 
         {/* Recently viewed */}
-        <Text
+        {/* <Text
           className="text-white ml-4 mt-5 mb-2"
           style={{
             fontFamily: 'DMSans-Bold',
@@ -187,7 +205,7 @@ export default function ProfileScreen() {
               />
             </View>
           ))}
-        </ScrollView>
+        </ScrollView> */}
 
         {/* Loved list */}
         <Text
@@ -203,24 +221,8 @@ export default function ProfileScreen() {
           horizontal
           showsHorizontalScrollIndicator={false}
           className="pl-4 mb-8">
-          {lovedList.map((item, idx) => (
-            <View key={idx} className="mr-4 relative">
-              {/* Heart icon */}
-              <TouchableOpacity className="absolute right-2 top-2 z-10 p-1">
-                <Image
-                  source={icons.love}
-                  className="w-8 h-8"
-                  style={{borderRadius: 50}}
-                />
-              </TouchableOpacity>
-              <Image
-                source={{
-                  uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
-                }}
-                className="w-32 h-48 rounded-xl"
-              />
-              <Text className="text-white text-xs mt-1">{item.title}</Text>
-            </View>
+          {data?.map((item, idx) => (
+            <LovedMovieItem key={idx} item={item} idx={idx} />
           ))}
         </ScrollView>
       </ScrollView>

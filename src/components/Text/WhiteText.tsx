@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 // components/Text/WhiteText.tsx
 import React from 'react';
 import {Text, TextStyle} from 'react-native';

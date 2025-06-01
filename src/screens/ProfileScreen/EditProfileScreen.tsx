@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   View,
   Text,
@@ -11,6 +12,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {images} from '../../constants/images';
 import {icons} from '../../constants/icons';
 import {useNavigation} from '@react-navigation/native';
+import {Asset, launchImageLibrary} from 'react-native-image-picker';
 
 export default function EditProfileScreen() {
   const [profile, setProfile] = useState({
@@ -20,6 +22,21 @@ export default function EditProfileScreen() {
     email: 'sahurlovetralalerotralala@gmail.com',
     dob: '30/11/2003',
   });
+
+  const [image, setImage] = useState<Asset | null>(null);
+  const [uploading, setUploading] = useState(false);
+
+  const pickImage = () => {
+    launchImageLibrary({mediaType: 'photo'}, response => {
+      if (response.didCancel) return;
+      if (response.errorCode) {
+        return;
+      }
+      if (response.assets && response.assets.length > 0) {
+        setImage(response.assets[0]);
+      }
+    });
+  };
 
   const navigation = useNavigation();
 
@@ -32,7 +49,6 @@ export default function EditProfileScreen() {
       <Image
         source={images.bg2}
         resizeMode="cover"
-        // eslint-disable-next-line react-native/no-inline-styles
         style={{
           width: '100%',
         }}
@@ -54,20 +70,30 @@ export default function EditProfileScreen() {
           }}>
           Edit profile
         </Text>
-        <View style={{width: 24}} /> {/* Placeholder for alignment */}
+        <View style={{width: 24}} />
       </View>
 
-      {/* Profile Image */}
       <View className="items-center mb-6">
         <View className="w-24 h-24 rounded-full bg-[#3B4A6B] items-center justify-center">
-          <Image
-            source={{
-              uri: 'https://img.icons8.com/ios-filled/100/ffffff/camera.png',
-            }} // Replace with your image or SVG
-            className="w-16 h-16"
-            resizeMode="contain"
-          />
+          {(image !== null) ? (
+            <Image
+              source={{uri: image.uri}}
+              className="w-full h-full rounded-full"
+              resizeMode="cover"
+            />
+          ) : (
+            <Image
+              source={icons.avt}
+              className="w-full h-full rounded-full"
+              resizeMode="cover"
+            />
+          )}
         </View>
+        <TouchableOpacity
+          onPress={pickImage}
+          className="mt-2 bg-[#A084E8] rounded-full px-4 py-2">
+          <Text className="text-white">Change Photo</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Form */}
@@ -99,7 +125,7 @@ export default function EditProfileScreen() {
           style={{
             fontFamily: 'DMSans-Medium',
           }}>
-          First Name
+          Name
         </Text>
         <View className="flex-row items-center border border-[white] rounded-full px-4  py-3 mb-4">
           <TextInput
@@ -107,27 +133,6 @@ export default function EditProfileScreen() {
             onChangeText={text => handleChange('firstName', text)}
             className="flex-1 text-white py-3"
             placeholder="First Name"
-            placeholderTextColor="#A3A3A3"
-          />
-          <TouchableOpacity>
-            <Image source={icons.fill} className="w-[15] h-[15]" />
-          </TouchableOpacity>
-        </View>
-
-        {/* Last Name */}
-        <Text
-          className="text-white mb-1"
-          style={{
-            fontFamily: 'DMSans-Medium',
-          }}>
-          Last Name
-        </Text>
-        <View className="flex-row items-center border border-[white] rounded-full px-4 py-3 mb-4">
-          <TextInput
-            value={profile.lastName}
-            onChangeText={text => handleChange('lastName', text)}
-            className="flex-1 text-white py-3"
-            placeholder="Last Name"
             placeholderTextColor="#A3A3A3"
           />
           <TouchableOpacity>
@@ -179,12 +184,12 @@ export default function EditProfileScreen() {
         </View>
 
         {/* Update Button */}
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => {}}>
           <LinearGradient
             colors={['#A084E8', '#8F6ED5']}
             start={{x: 0, y: 0}}
             end={{x: 1, y: 0}}
-            className="rounded-full mb-8">
+            className="rounded-full mt-5 mb-8">
             <Text className="text-white text-center font-bold text-lg py-4">
               UPDATE
             </Text>

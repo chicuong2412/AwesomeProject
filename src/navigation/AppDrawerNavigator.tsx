@@ -20,8 +20,12 @@ export default function AppDrawerNavigator() {
           backgroundColor: '#12082A',
           width: 240,
         },
+        drawerPosition: 'right',
+        drawerType: 'slide',
       }}>
-      <Drawer.Screen name="Profile" component={ProfileScreen} />
+      <Drawer.Screen options={{
+        drawerLabel: 'Profile',
+      }} name="Profile Board" component={ProfileScreen} />
       <Drawer.Screen name="Edit Profile" component={EditProfileScreen} />
       <Drawer.Screen name="Change Password" component={ChangePasswordScreen} />
     </Drawer.Navigator>

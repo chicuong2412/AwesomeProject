@@ -7,7 +7,7 @@ export async function Login(email: string, password: string) {
     password: password,
   });
 
-  return rp;
+  return rp.data;
 }
 
 export async function Logout() {
@@ -52,4 +52,17 @@ export async function ResetPassword(
   );
 
   return rp.data.data;
+}
+
+export async function Register(
+  email: string,
+  password: string
+): Promise<string> {
+  const rp = await api.post('/api/authenticate/register', {
+    email: email,
+    password: password,
+  });
+  
+
+  return rp.data;
 }

@@ -1,6 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
-import {View, Image, TouchableOpacity, Text, TextInput} from 'react-native';
-import React, {useState} from 'react';
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  Text,
+  TextInput,
+  ToastAndroid,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {images} from '../../constants/images';
 import {icons} from '../../constants/icons';
 import LinearGradient from 'react-native-linear-gradient';
@@ -9,7 +16,7 @@ import {StackRootIn} from '../../interfaces/interfaces';
 import {useNavigation} from '@react-navigation/native';
 import {Login} from '../../services/AuthServices';
 import {useAuth} from '../../Auth/AuthProvider';
-import {AxiosError} from 'axios';
+import {useFetch} from '../../hooks/useFetch';
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
   StackRootIn,
@@ -21,13 +28,26 @@ export default function LoginScreen() {
 
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
-  const [errors, setErrors] = useState<AxiosError | null>(null);
+  const [helperText, setHelperText] = useState<string | null>(null);
+
+  const {
+    data,
+    errors,
+    refetch,
+    loading: loadingFetch,
+    reset,
+  } = useFetch(() => {
+    return Login(email!, password!);
+  });
 
   const {setTokens} = useAuth();
 
   const navigation = useNavigation<LoginScreenNavigationProp>();
 
   const handleLogin = async () => {
+    if (loadingFetch) {
+      return;
+    }
     if (email === undefined) {
       return;
     }
@@ -35,20 +55,43 @@ export default function LoginScreen() {
     if (password === undefined) {
       return;
     }
-
-    try {
-      const rp = await Login(email, password);
-
-      setTokens(rp.data.token as string, rp.data.refreshToken as string);
-
-      navigation.navigate('MainStack');
-    } catch (error: any) {
-      const rp = error as AxiosError;
-      if (rp.status === 400) {
-        setErrors(rp);
-      }
-    }
+    refetch();
   };
+
+  useEffect(() => {
+    reset();
+  }, [reset]);
+
+  useEffect(() => {
+    if (errors !== null) {
+      switch (errors.response?.status) {
+        case 400:
+          setHelperText(errors.response?.data as string);
+          break;
+        case 401:
+          setHelperText(errors.response?.data as string);
+          break;
+        case 404:
+          setHelperText(errors.response?.data as string);
+          break;
+        default:
+          setHelperText(errors.response?.data as string);
+          navigation.navigate('MainStack');
+          break;
+      }
+      return;
+    }
+    if (data !== null) {
+      setTokens(data.token, data.refreshToken);
+      ToastAndroid.showWithGravity(
+        'Log in successful!',
+        ToastAndroid.SHORT,
+        ToastAndroid.CENTER,
+      );
+      reset();
+      navigation.navigate('MainStack');
+    }
+  }, [data, errors, navigation, setTokens, reset]);
 
   return (
     <View className="bg-primary flex-1 pt-[10%]">
@@ -137,11 +180,9 @@ export default function LoginScreen() {
           </Text>
         </TouchableOpacity>
 
-        {errors != null ? (
+        {helperText != null ? (
           <View className="flex-row items-center rounded-lg mb-6 px-4">
-            <Text className="text-red-600">
-              {errors.response?.data as string}
-            </Text>
+            <Text className="text-red-600">{helperText}</Text>
           </View>
         ) : (
           ''

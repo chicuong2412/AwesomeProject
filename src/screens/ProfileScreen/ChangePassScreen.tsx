@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   View,
   Text,
@@ -28,7 +29,6 @@ export default function ChangePassScreen() {
         className="absolute z-0"
       />
 
-      {/* Header */}
       <View className="flex-row items-center justify-between px-4 pt-8 pb-4 mt-8 mb-10">
         <TouchableOpacity
           onPress={() => {
@@ -44,10 +44,9 @@ export default function ChangePassScreen() {
           }}>
           Change Your Password
         </Text>
-        <View style={{width: 24}} /> {/* Placeholder for alignment */}
+        <View style={{width: 24}} />
       </View>
 
-      {/* Body */}
       <View className="px-4">
         <Text
           className="text-white text-left mb-3"

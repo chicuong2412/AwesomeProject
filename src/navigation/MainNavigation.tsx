@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useRef} from 'react';
 import IntroScreen from '../screens/IntroScreen';
 import StackNavigation from './StackNavigation';
@@ -8,15 +9,23 @@ import RegisterScreen from '../screens/RegisterScreen/RegisterScreen';
 import MainForgotPassScreen from '../screens/ForgotPassScreen/MainScreen';
 import SetPassScreen from '../screens/ForgotPassScreen/SetPassScreen';
 import EnterCodeScreen from '../screens/ForgotPassScreen/EnterCodeScreen';
-import {Animated, Easing, View} from 'react-native';
+import {Animated, AppState, AppStateStatus, Easing, View} from 'react-native';
 import {useAuth} from '../Auth/AuthProvider';
+import {fetchScreenTimeToServer} from '../services/DataService';
 
 const Stack = createNativeStackNavigator<StackRootIn>();
 
 export default function MainNavigation() {
-  const {loading} = useAuth();
+  const {loading, accessToken} = useAuth();
+
+  const appState = useRef(AppState.currentState);
+  const sessionStart = useRef<number | null>(null);
 
   const spinAnim = useRef(new Animated.Value(0)).current;
+
+  const handleFetchScreenTime = (value: number) => {
+    fetchScreenTimeToServer(value);
+  };
 
   useEffect(() => {
     Animated.loop(
@@ -28,6 +37,68 @@ export default function MainNavigation() {
       }),
     ).start();
   }, [spinAnim]);
+
+  useEffect(() => {
+    if (accessToken != null) {
+      // If the user is authenticated, we can start tracking app state changes
+      sessionStart.current = Date.now();
+    } else {
+      // If the user is not authenticated, reset the session start time
+      var sessionEnd = Date.now();
+      if (sessionStart.current !== null) {
+        const sessionDuration = (sessionEnd - sessionStart.current) / 1000;
+
+        //Send data to server
+        handleFetchScreenTime(sessionDuration);
+      }
+      sessionStart.current = null;
+    }
+  }, [accessToken]);
+
+  useEffect(() => {
+    const handleAppStateChange = (nextAppState: AppStateStatus) => {
+      if (accessToken == null) {
+        // If the user is not authenticated, we don't track app state changes
+        if (appState.current === nextAppState) {
+          // If the app state hasn't changed, we can skip further processing
+          return;
+        }
+        // If the user is not authenticated, reset the session start time
+        sessionStart.current = Date.now();
+        appState.current = nextAppState;
+        return;
+      }
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === 'active'
+      ) {
+        // App has come to the foreground
+        sessionStart.current = Date.now();
+      } else if (
+        appState.current === 'active' &&
+        nextAppState.match(/inactive|background/)
+      ) {
+        // App is going to the background
+        if (sessionStart.current) {
+          const sessionEnd = Date.now();
+          const sessionDuration = (sessionEnd - sessionStart.current) / 1000;
+
+          //Send data to server
+          handleFetchScreenTime(sessionDuration);
+        }
+      }
+      appState.current = nextAppState;
+    };
+
+    const subscription = AppState.addEventListener(
+      'change',
+      handleAppStateChange,
+    );
+
+    return () => {
+      subscription.remove();
+    };
+  }, [accessToken]);
 
   const spin = spinAnim.interpolate({
     inputRange: [0, 1],
