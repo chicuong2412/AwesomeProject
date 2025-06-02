@@ -39,7 +39,9 @@ export default function LovedMovieItem({
           }}
           className="w-32 h-48 rounded-xl"
         />
-        <Text className="text-white text-xs mt-1">{item.title}</Text>
+        <Text className="text-white text-xs mt-1 text-center">
+          {item.title}
+        </Text>
       </View>
     </TouchableOpacity>
   );
