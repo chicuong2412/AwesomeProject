@@ -93,7 +93,7 @@ export default function SearchScreen() {
         <SearchBar
           searchValue={searchValue}
           setSearchValue={setSearchValue}
-          placeholder="Search through over 300+ movies online"
+          placeholder="Search through over many movies online"
         />
         <ScrollView
           horizontal
