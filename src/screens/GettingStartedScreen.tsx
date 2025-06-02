@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useRef, useEffect} from 'react';
 import {
   View,
@@ -12,11 +13,18 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {images} from '../constants/images';
 import {icons} from '../constants/icons';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {StackRootIn} from '../interfaces/interfaces';
+import {useNavigation} from '@react-navigation/native';
 
 const {width} = Dimensions.get('window');
 
+type NavigationProp = NativeStackNavigationProp<StackRootIn, 'GettingStarted'>;
+
 export default function GettingStartedScreen() {
   const translateX = useRef(new Animated.Value(0)).current;
+
+  const navigation = useNavigation<NavigationProp>();
 
   useEffect(() => {
     Animated.loop(
@@ -37,7 +45,6 @@ export default function GettingStartedScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Background with animation */}
       <Animated.View
         style={[styles.backgroundWrapper, {transform: [{translateX}]}]}>
         <ImageBackground
@@ -51,10 +58,13 @@ export default function GettingStartedScreen() {
         </ImageBackground>
       </Animated.View>
 
-      {/* Bottom content */}
       <View style={styles.bottomContent}>
         <Image source={images.logoblack} style={styles.logoImage} />
-        <TouchableOpacity style={styles.buttonWrapper}>
+        <TouchableOpacity
+          style={styles.buttonWrapper}
+          onPress={() => {
+            navigation.replace('Login');
+          }}>
           <LinearGradient
             colors={['#AB8BFF', '#C4C3C3']}
             style={styles.button}

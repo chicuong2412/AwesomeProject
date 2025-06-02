@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {images} from '../../constants/images.ts';
 import {icons} from '../../constants/icons.ts';
 import SearchBar from '../../components/SearchBar/SearchBar.tsx';
@@ -62,12 +62,11 @@ export default function SearchScreen() {
 
   useEffect(() => {
     const timeOut = setTimeout(async () => {
-      console.log(searchValue.trim());
       await loadMovies();
     }, 500);
 
     return () => clearTimeout(timeOut);
-  }, [searchValue]);
+  }, [searchValue, selectedGenere]);
 
   return (
     <View className="bg-primary flex-1">
@@ -80,13 +79,12 @@ export default function SearchScreen() {
         }}
         className="absolute z-0"
       />
-
-      <ScrollView className="px-5">
-        <Image
-          source={icons.logo}
-          className="mx-auto mt-12 mb-2 w-[80] h-[80]"
-          resizeMode="contain"
-        />
+      <Image
+        source={icons.logo}
+        className="mx-auto mt-12 mb-2 w-[80] h-[80]"
+        resizeMode="contain"
+      />
+      <View>
         <SearchBar
           searchValue={searchValue}
           setSearchValue={setSearchValue}
@@ -94,71 +92,72 @@ export default function SearchScreen() {
         />
         <ScrollView
           horizontal
-          showsHorizontalScrollIndicator={false}
-          style={{marginTop: 10}}>
+          style={{
+            marginTop: 10,
+            marginHorizontal: 20,
+          }}
+          showsHorizontalScrollIndicator={false}>
           {generes?.map(genere => (
-            <>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => {
-                  handleClickSelectGenere(genere.id);
-                }}>
-                <Text
-                  className={`${
-                    selectedGenere === genere.id ? 'font-bold' : ''
-                  }`}
-                  style={styles.text}>
-                  {genere.name}
-                </Text>
-              </TouchableOpacity>{' '}
-            </>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                handleClickSelectGenere(genere.id);
+              }}>
+              <Text
+                className={`${selectedGenere === genere.id ? 'font-bold' : ''}`}
+                style={styles.text}>
+                {genere.name}{' '}
+              </Text>
+            </TouchableOpacity>
           ))}
         </ScrollView>
-        <FlatList
-          data={movies}
-          renderItem={({item}) => {
-            return <MovieDisplay item={item} key={item.id} />;
-          }}
-          keyExtractor={item => item.id.toString()}
-          numColumns={3}
-          // eslint-disable-next-line react-native/no-inline-styles
-          columnWrapperStyle={{
-            justifyContent: 'flex-start',
-            gap: 20,
-            paddingRight: 5,
-            marginBottom: 10,
-            marginTop: 20,
-          }}
-          className="mt-2 pb-32"
-          scrollEnabled={false}
-          ListHeaderComponent={
-            <>
-              {loading && (
-                <ActivityIndicator
-                  size="large"
-                  color="#0000ff"
-                  className="my-3"
-                />
-              )}
+      </View>
+      <View className="px-5">
+      <FlatList
+        data={movies}
+        renderItem={({item}) => {
+          return <MovieDisplay item={item} key={item.id} />;
+        }}
+        keyExtractor={item => item.id.toString()}
+        numColumns={3}
+        // eslint-disable-next-line react-native/no-inline-styles
+        columnWrapperStyle={{
+          justifyContent: 'flex-start',
+          gap: 20,
+          paddingRight: 5,
+          marginBottom: 10,
+          // marginTop: 20,
+        }}
+        className="mt-2 pb-32"
+        scrollEnabled={false}
+        ListHeaderComponent={
+          <>
+            {loading && (
+              <ActivityIndicator
+                size="large"
+                color="#0000ff"
+                className="my-3"
+              />
+            )}
 
-              {errors && (
-                <Text className="text-red-500 px-5 my-3">
-                  Error: {errors.message}
+            {errors && (
+              <Text className="text-red-500 px-5 my-3">
+                Error: {errors.message}
+              </Text>
+            )}
+
+            {!loading && !errors && searchValue.trim() && (
+              <>
+                <Text className="text-xl text-white font-bold mb-2">
+                  Search results for{' '}
+                  <Text className="text-[#D1C0FF]">{searchValue}</Text>
                 </Text>
-              )}
-
-              {!loading && !errors && searchValue.trim() && (
-                <>
-                  <Text className="text-xl text-white font-bold">
-                    Search results for{' '}
-                    <Text className="text-[#D1C0FF]">{searchValue}</Text>
-                  </Text>
-                </>
-              )}
-            </>
-          }
-        />
-      </ScrollView>
+              </>
+            )}
+          </>
+        }
+      />
+      </View>
     </View>
   );
 }

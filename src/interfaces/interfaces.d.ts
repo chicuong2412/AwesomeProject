@@ -55,6 +55,7 @@ type StackRootIn = {
   EnterCodeScreen: {resetPassToken: string | null};
   SetPassScreen: {resetPassToken: string | null};
   Drawer: undefined;
+  GettingStarted: undefined;
 };
 
 export interface EpisodeItemInfo {

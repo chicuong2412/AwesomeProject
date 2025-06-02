@@ -19,6 +19,7 @@ import {StackRootIn, UserProfile} from '../../interfaces/interfaces';
 import {useFetch} from '../../hooks/useFetch';
 import {fetchMyProfile, UpdateProfile} from '../../services/DataService';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import Config from 'react-native-config';
 
 type NavigationProps = NativeStackNavigationProp<StackRootIn, 'Drawer'>;
 
@@ -135,7 +136,9 @@ export default function EditProfileScreen() {
             />
           ) : (
             <Image
-              source={icons.avt}
+              source={{
+                uri: `${Config.PUBLIC_LINK}/api/images/avatar/${profile.avatar}`,
+              }}
               className="w-full h-full rounded-full"
               resizeMode="cover"
             />

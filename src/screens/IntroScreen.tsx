@@ -17,8 +17,11 @@ export default function IntroScreen() {
   const {accessToken} = useAuth();
 
   const handleVideoEnd = () => {
+    console.log(accessToken);
+    
     if (accessToken == null) {
-      navigation.navigate('Login');
+      navigation.navigate('GettingStarted');
+      return;
     }
 
     navigation.navigate('MainStack');

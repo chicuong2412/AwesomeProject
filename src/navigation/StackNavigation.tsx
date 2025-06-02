@@ -24,7 +24,7 @@ export default function StackNavigation() {
 
   useEffect(() => {
     if (accessToken == null) {
-      navigation.navigate('Login');
+      navigation.navigate('GettingStarted');
     }
   }, [accessToken, navigation]);
 

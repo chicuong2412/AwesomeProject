@@ -241,7 +241,7 @@ export default function DetailScreen({
             })}
           </View>
         </View>
-        <View className="mb-10">
+        {/* <View className="mb-10">
           <Text
             className="text-[#A8B5DB] mb-3"
             style={{
@@ -264,7 +264,7 @@ export default function DetailScreen({
               );
             })}
           </View>
-        </View>
+        </View> */}
         <View className="flex-row gap-[10%] mb-10">
           <View>
             <Text
@@ -307,7 +307,7 @@ export default function DetailScreen({
             </Text>
           </View>
         </View>
-        <View>
+        {/* <View>
           <Text
             className="text-[#A8B5DB] mb-3"
             style={{
@@ -330,7 +330,7 @@ export default function DetailScreen({
               );
             })}
           </View>
-        </View>
+        </View> */}
       </ScrollView>
     </View>
   );

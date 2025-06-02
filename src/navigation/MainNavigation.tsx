@@ -12,6 +12,7 @@ import EnterCodeScreen from '../screens/ForgotPassScreen/EnterCodeScreen';
 import {Animated, AppState, AppStateStatus, Easing, View} from 'react-native';
 import {useAuth} from '../Auth/AuthProvider';
 import {fetchScreenTimeToServer} from '../services/DataService';
+import GettingStartedScreen from '../screens/GettingStartedScreen';
 
 const Stack = createNativeStackNavigator<StackRootIn>();
 
@@ -135,6 +136,7 @@ export default function MainNavigation() {
         />
         <Stack.Screen name="EnterCodeScreen" component={EnterCodeScreen} />
         <Stack.Screen name="SetPassScreen" component={SetPassScreen} />
+        <Stack.Screen name="GettingStarted" component={GettingStartedScreen} />
       </Stack.Navigator>
     </>
   );
