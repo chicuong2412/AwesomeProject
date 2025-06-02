@@ -2,7 +2,7 @@ export interface Movie {
   id: number;
   title: string;
   backdropPath: string;
-  generes: Genre[];
+  generes: Genere[];
   overview: string;
   posterPath: string;
   releaseDate: string;
@@ -23,7 +23,7 @@ export interface MovieDetails {
   id: number;
   title: string;
   backdropPath: string;
-  generes: Genre[];
+  generes: Genere[];
   overview: string;
   posterPath: string;
   releaseDate: string;
@@ -99,7 +99,7 @@ export interface Season {
   releaseDate: string;
 }
 
-export interface Genre {
+export interface Genere {
   id: number;
   name: string;
 }

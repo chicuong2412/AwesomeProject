@@ -89,7 +89,7 @@ export default function EditProfileScreen() {
           navigation.replace('MainStack');
         }
       })
-      .catch(error => {});
+      .catch(_error => {});
   };
 
   const handleChange = (field: string, value: string) => {

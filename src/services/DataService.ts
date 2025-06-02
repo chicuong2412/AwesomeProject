@@ -82,3 +82,9 @@ export async function UpdateProfile(form: FormData) {
 
   return rp;
 }
+
+export async function FetchAllGeneres() {
+  const rp = await api.get('/api/generes/getAll');
+
+  return rp.data.data;
+}
