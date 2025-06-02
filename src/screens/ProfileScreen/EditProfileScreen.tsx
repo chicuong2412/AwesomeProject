@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import {
   View,
@@ -6,29 +7,60 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
+  ToastAndroid,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {images} from '../../constants/images';
 import {icons} from '../../constants/icons';
 import {useNavigation} from '@react-navigation/native';
 import {Asset, launchImageLibrary} from 'react-native-image-picker';
+import {StackRootIn, UserProfile} from '../../interfaces/interfaces';
+import {useFetch} from '../../hooks/useFetch';
+import {fetchMyProfile, UpdateProfile} from '../../services/DataService';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
+type NavigationProps = NativeStackNavigationProp<StackRootIn, 'Drawer'>;
 
 export default function EditProfileScreen() {
-  const [profile, setProfile] = useState({
+  const [profile, setProfile] = useState<UserProfile>({
     username: 'plgkiet',
-    firstName: 'Tung Tung Tung Tung Tung',
-    lastName: 'Sahur',
+    name: 'Tung Tung Tung Tung Tung',
     email: 'sahurlovetralalerotralala@gmail.com',
-    dob: '30/11/2003',
+    doB: '30/11/2003',
+    screenTime: 0,
+    id: '',
   });
+
+  const navigation = useNavigation<NavigationProps>();
 
   const [image, setImage] = useState<Asset | null>(null);
   const [uploading, setUploading] = useState(false);
 
+  const {
+    data: profileData,
+    refetch: profileRefetch,
+    errors,
+    loading,
+  } = useFetch<UserProfile>(() => {
+    return fetchMyProfile();
+  });
+
+  useEffect(() => {
+    profileRefetch();
+  }, []);
+
+  useEffect(() => {
+    if (profileData != null) {
+      setProfile(profileData);
+    }
+  }, [profileData]);
+
   const pickImage = () => {
     launchImageLibrary({mediaType: 'photo'}, response => {
-      if (response.didCancel) return;
+      if (response.didCancel) {
+        return;
+      }
       if (response.errorCode) {
         return;
       }
@@ -38,7 +70,27 @@ export default function EditProfileScreen() {
     });
   };
 
-  const navigation = useNavigation();
+  const handleUpdate = async () => {
+    const form = new FormData();
+    form.append('name', profile.name);
+    form.append('username', profile.username);
+    form.append('email', profile.email);
+    form.append('doB', profile.doB);
+    form.append('avatar', image);
+
+    UpdateProfile(form)
+      .then(rp => {
+        if (rp.status === 200) {
+          ToastAndroid.showWithGravity(
+            'Profile updated successful!',
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER,
+          );
+          navigation.replace('MainStack');
+        }
+      })
+      .catch(error => {});
+  };
 
   const handleChange = (field: string, value: string) => {
     setProfile({...profile, [field]: value});
@@ -54,7 +106,7 @@ export default function EditProfileScreen() {
         }}
         className="absolute z-0"
       />
-      {/* Header */}
+
       <View className="flex-row items-center justify-between px-4 pt-8 pb-4 mt-8">
         <TouchableOpacity
           onPress={() => {
@@ -75,7 +127,7 @@ export default function EditProfileScreen() {
 
       <View className="items-center mb-6">
         <View className="w-24 h-24 rounded-full bg-[#3B4A6B] items-center justify-center">
-          {(image !== null) ? (
+          {image !== null ? (
             <Image
               source={{uri: image.uri}}
               className="w-full h-full rounded-full"
@@ -96,9 +148,7 @@ export default function EditProfileScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* Form */}
       <View className="px-6">
-        {/* Username */}
         <Text
           className="text-white mb-1"
           style={{
@@ -119,7 +169,6 @@ export default function EditProfileScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* First Name */}
         <Text
           className="text-white mb-1"
           style={{
@@ -129,7 +178,7 @@ export default function EditProfileScreen() {
         </Text>
         <View className="flex-row items-center border border-[white] rounded-full px-4  py-3 mb-4">
           <TextInput
-            value={profile.firstName}
+            value={profile.name}
             onChangeText={text => handleChange('firstName', text)}
             className="flex-1 text-white py-3"
             placeholder="First Name"
@@ -140,7 +189,6 @@ export default function EditProfileScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* Email */}
         <Text
           className="text-white mb-1"
           style={{
@@ -162,7 +210,6 @@ export default function EditProfileScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* Date of Birth */}
         <Text
           className="text-white mb-1"
           style={{
@@ -172,7 +219,7 @@ export default function EditProfileScreen() {
         </Text>
         <View className="flex-row items-center border border-[white] rounded-full px-4 py-3 mb-8">
           <TextInput
-            value={profile.dob}
+            value={profile.doB}
             onChangeText={text => handleChange('dob', text)}
             className="flex-1 text-white py-3"
             placeholder="Date of Birth"
@@ -183,8 +230,10 @@ export default function EditProfileScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* Update Button */}
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity
+          onPress={() => {
+            handleUpdate();
+          }}>
           <LinearGradient
             colors={['#A084E8', '#8F6ED5']}
             start={{x: 0, y: 0}}

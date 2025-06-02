@@ -72,3 +72,13 @@ export async function fetchRelatedMovies() {
   const response = await api.get('/api/movies/getRandom');
   return response.data.data;
 }
+
+export async function UpdateProfile(form: FormData) {
+  const rp = await api.put('/api/users/update-my-profile', form, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
+  return rp;
+}
