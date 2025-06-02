@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import {View, Text, Image, ScrollView, TouchableOpacity} from 'react-native';
-import React, { useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {RouteProp, useNavigation} from '@react-navigation/native';
 import {useFetch} from '../../hooks/useFetch';
 import {fetchDataMovieDetail} from '../../services/DataService';
@@ -55,7 +55,8 @@ export default function DetailScreen({
         <TouchableOpacity
           onPress={() => {
             navigate.navigate('Video', {
-              itemId: itemId});
+              itemId: itemId,
+            });
           }}>
           <View className="w-[50] h-[50] bg-white justify-center absolute flex-row items-center rounded-[100%] bottom-[-25] right-[30]">
             <Image
@@ -94,8 +95,7 @@ export default function DetailScreen({
           style={{
             fontFamily: 'DMSans-Medium',
           }}>
-          {data?.releaseDate.split('-')[0]} • {data?.status} • {data?.runtime}{' '}
-          minutes
+          {data?.releaseDate.split('-')[0]} • {data?.runtime} minutes
         </Text>
         <View className="mb-8 flex-row gap-2">
           <View className="w-[110] h-[30]">

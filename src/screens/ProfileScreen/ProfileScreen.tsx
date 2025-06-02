@@ -146,15 +146,30 @@ export default function ProfileScreen() {
             <View
               className="bg-[#12082A] mt-2 w-full items-center py-10 px-4"
               style={{borderRadius: 50}}>
-              <GradientText text={`${Math.floor((profileData?.screenTime || 0) / 60)} hours`} fontSize={60} />
+              <GradientText
+                text={`${Math.floor(
+                  (profileData?.screenTime || 0) / 3600,
+                )} hours`}
+                fontSize={60}
+              />
             </View>
           </LinearGradient>
 
           <View className="absolute top-0 items-center z-10">
             <View className=" rounded-lg">
-              <Image source={(profileData?.avatar != null && profileData.avatar) ? {
-                uri: Config.PUBLIC_LINK + '/api/images/avatar/' + profileData?.avatar,
-              } : icons.avt} className="w-20 h-20 rounded-lg" />
+              <Image
+                source={
+                  profileData?.avatar != null && profileData.avatar
+                    ? {
+                        uri:
+                          Config.PUBLIC_LINK +
+                          '/api/images/avatar/' +
+                          profileData?.avatar,
+                      }
+                    : icons.avt
+                }
+                className="w-20 h-20 rounded-lg"
+              />
             </View>
             <Text
               className="text-white mt-2 font-semibold"

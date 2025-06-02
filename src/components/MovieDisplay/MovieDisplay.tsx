@@ -63,7 +63,7 @@ export default function MovieDisplay({item}: {item: Movie}) {
             fontFamily: 'DMSans-Bold',
             fontSize: 10,
           }}>
-          Action • {item.hasSeason ? 'Series TV' : 'Movie'}
+          {item.generes[0]?.name} • {item.hasSeason ? 'Series TV' : 'Movie'}
         </Text>
       </View>
     </TouchableOpacity>
