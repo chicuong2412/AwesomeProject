@@ -9,14 +9,14 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {images} from '../../constants/images.ts';
 import {icons} from '../../constants/icons.ts';
 import SearchBar from '../../components/SearchBar/SearchBar.tsx';
 import MovieDisplay from '../../components/MovieDisplay/MovieDisplay.tsx';
-import {fetchData} from '../../services/DataService.ts';
+import {FetchAllGeneres, fetchData} from '../../services/DataService.ts';
 import {useFetch} from '../../hooks/useFetch.ts';
-import {Movie} from '../../interfaces/interfaces';
+import {Genere, Movie} from '../../interfaces/interfaces';
 
 export default function SearchScreen() {
   const [searchValue, setSearchValue] = useState('');
@@ -29,10 +29,36 @@ export default function SearchScreen() {
   } = useFetch<Movie[]>(() => {
     return fetchData(
       searchValue.localeCompare('') !== 0
-        ? 'movies/search' + '?Search=' + searchValue
+        ? 'movies/search' +
+            '?Search=' +
+            searchValue +
+            `${selectedGenere ? `&Genere=${selectedGenere}` : ''}`
         : 'movies/discover',
     );
   }, false);
+
+  const {
+    data: generes,
+    refetch: genereRefetch,
+    loading: genereLoading,
+    errors: genereError,
+  } = useFetch<Genere[]>(() => {
+    return FetchAllGeneres();
+  });
+
+  const [selectedGenere, setSelectedGenere] = useState<number>();
+
+  const handleClickSelectGenere = (id: number) => {
+    if (selectedGenere === id) {
+      setSelectedGenere(undefined);
+      return;
+    }
+    setSelectedGenere(id);
+  };
+
+  useEffect(() => {
+    genereRefetch();
+  }, []);
 
   useEffect(() => {
     const timeOut = setTimeout(async () => {
@@ -70,9 +96,23 @@ export default function SearchScreen() {
           horizontal
           showsHorizontalScrollIndicator={false}
           style={{marginTop: 10}}>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.text}>Genre</Text>
-          </TouchableOpacity>{' '}
+          {generes?.map(genere => (
+            <>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                  handleClickSelectGenere(genere.id);
+                }}>
+                <Text
+                  className={`${
+                    selectedGenere === genere.id ? 'font-bold' : ''
+                  }`}
+                  style={styles.text}>
+                  {genere.name}
+                </Text>
+              </TouchableOpacity>{' '}
+            </>
+          ))}
         </ScrollView>
         <FlatList
           data={movies}
