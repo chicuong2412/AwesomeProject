@@ -28,7 +28,7 @@ export default function CustomDrawerContent(props: any) {
       contentContainerStyle={{flex: 1, backgroundColor: '#12082A'}}>
       <Image
         source={icons.logo}
-        className="mx-auto pb-2 mt-2 mb-2 w-[80] h-[80]"
+        className="mx-auto pb-2 mt-2 mb-5 w-[60] h-[60]"
         resizeMode="contain"
       />
       <View style={{flex: 1}}>

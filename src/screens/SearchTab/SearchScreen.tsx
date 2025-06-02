@@ -6,8 +6,10 @@ import {
   ScrollView,
   FlatList,
   ActivityIndicator,
+  TouchableOpacity,
+  StyleSheet,
 } from 'react-native';
-import React, { useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {images} from '../../constants/images.ts';
 import {icons} from '../../constants/icons.ts';
 import SearchBar from '../../components/SearchBar/SearchBar.tsx';
@@ -64,6 +66,14 @@ export default function SearchScreen() {
           setSearchValue={setSearchValue}
           placeholder="Search through over 300+ movies online"
         />
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={{marginTop: 10}}>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.text}>Genre</Text>
+          </TouchableOpacity>{' '}
+        </ScrollView>
         <FlatList
           data={movies}
           renderItem={({item}) => {
@@ -77,6 +87,7 @@ export default function SearchScreen() {
             gap: 20,
             paddingRight: 5,
             marginBottom: 10,
+            marginTop: 20,
           }}
           className="mt-2 pb-32"
           scrollEnabled={false}
@@ -99,7 +110,7 @@ export default function SearchScreen() {
               {!loading && !errors && searchValue.trim() && (
                 <>
                   <Text className="text-xl text-white font-bold">
-                    Search results for:{' '}
+                    Search results for{' '}
                     <Text className="text-[#D1C0FF]">{searchValue}</Text>
                   </Text>
                 </>
@@ -111,3 +122,19 @@ export default function SearchScreen() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  button: {
+    backgroundColor: '#0F0D23',
+    borderRadius: 20,
+    paddingVertical: 7,
+    paddingHorizontal: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  text: {
+    color: '#FFFFFF',
+    fontFamily: 'DM Sans',
+    fontSize: 16,
+  },
+});
