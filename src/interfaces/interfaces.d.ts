@@ -52,7 +52,7 @@ type StackRootIn = {
   Login: undefined;
   Register: undefined;
   MainForgotPassScreen: undefined;
-  EnterCodeScreen: {resetPassToken: string | null};
+  EnterCodeScreen: {resetPassToken: string | null, email: string};
   SetPassScreen: {resetPassToken: string | null};
   Drawer: undefined;
   GettingStarted: undefined;
@@ -76,6 +76,7 @@ export interface IAuth {
   loading: boolean;
   setTokens: (newAccessToken: string, newRefreshToken: string) => void;
   clearTokens: () => void;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>> | null
 }
 
 export interface MovieItemDetail {

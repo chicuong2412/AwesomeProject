@@ -1,4 +1,4 @@
-import { AxiosError } from 'axios';
+import {AxiosError} from 'axios';
 import {useEffect, useState} from 'react';
 
 export function useFetch<T>(fetchData: () => Promise<T>, autoFetch = false) {
@@ -10,8 +10,9 @@ export function useFetch<T>(fetchData: () => Promise<T>, autoFetch = false) {
 
   const fetchDataFe = async () => {
     try {
-      setLoading(true);
       reset();
+      setLoading(true);
+
       const repData = await fetchData();
       setData(repData);
     } catch (error) {
@@ -24,13 +25,14 @@ export function useFetch<T>(fetchData: () => Promise<T>, autoFetch = false) {
   const reset = () => {
     setData(null);
     setLoading(false);
+    setErrors(null);
   };
 
   useEffect(() => {
     if (autoFetch) {
       fetchDataFe();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoFetch]);
 
   return {data, loading, refetch: fetchDataFe, reset, errors};

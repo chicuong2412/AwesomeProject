@@ -8,8 +8,12 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {StackRootIn} from '../../interfaces/interfaces';
 import {RouteProp, useNavigation} from '@react-navigation/native';
 import {useFetch} from '../../hooks/useFetch';
-import {ConfirmPasscodeFetch} from '../../services/AuthServices';
+import {
+  ConfirmPasscodeFetch,
+  FetchForgotPassword,
+} from '../../services/AuthServices';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {useAuth} from '../../Auth/AuthProvider';
 
 type EnterResetCodeScreen = NativeStackNavigationProp<
   StackRootIn,
@@ -32,8 +36,27 @@ export default function EnterCodeScreen({
   const [helperText, setHelperText] = useState('');
   const resetPassToken = route.params.resetPassToken;
 
+  const email = route.params.email;
+
   const {refetch, data, errors} = useFetch<string>(() => {
     return ConfirmPasscodeFetch(code.join(''), resetPassToken!);
+  });
+
+  const {setLoading} = useAuth();
+
+  const {
+    refetch: RefetchCode,
+    data: RefetchCodeData,
+    errors: errorRefetchCodes,
+  } = useFetch<string>(async () => {
+    if (setLoading != null) {
+      setLoading(true);
+    }
+    var rp = await FetchForgotPassword(email);
+    if (setLoading != null) {
+      setLoading(false);
+    }
+    return rp;
   });
 
   const navigation = useNavigation<EnterResetCodeScreen>();
@@ -48,7 +71,6 @@ export default function EnterCodeScreen({
 
   const handleSubmit = async () => {
     const codeJoin = code.join('');
-    console.log(codeJoin);
     if (codeJoin.length < 4) {
       setHelperText('Please enter a valid 4-digit code.');
       return;
@@ -89,6 +111,27 @@ export default function EnterCodeScreen({
       });
     }
   }, [errors, navigation, data]);
+
+  useEffect(() => {
+    if (errorRefetchCodes !== null) {
+      switch (errorRefetchCodes.response?.status) {
+        case 400:
+          setHelperText('Invalid code, please try again.');
+          break;
+        case 404:
+          setHelperText('This code does not exist or has expired.');
+          break;
+        case 429:
+          setHelperText('Too many requests, please wait a moment.');
+          break;
+        default:
+          setHelperText('Something went wrong, please try again later.');
+          navigation.navigate('MainStack');
+          break;
+      }
+      return;
+    }
+  }, [errorRefetchCodes, navigation, RefetchCodeData]);
 
   const handleChange = (text: string, idx: number) => {
     if (text.length > 1) {
@@ -180,7 +223,12 @@ export default function EnterCodeScreen({
             fontFamily: 'DMSans-Medium',
           }}>
           Did not receive code?{' '}
-          <Text className="text-[#A084E8] underline">Resend Now</Text>
+          <TouchableOpacity
+            onPress={() => {
+              RefetchCode();
+            }}>
+            <Text className="text-[#A084E8] underline">Resend Now</Text>
+          </TouchableOpacity>
         </Text>
 
         <TouchableOpacity
@@ -191,6 +239,13 @@ export default function EnterCodeScreen({
           </Text>
         </TouchableOpacity>
         {errors ? (
+          <Text className="text-red-600 text-lg text-left mt-5">
+            {helperText}
+          </Text>
+        ) : (
+          ''
+        )}
+        {errorRefetchCodes ? (
           <Text className="text-red-600 text-lg text-left mt-5">
             {helperText}
           </Text>

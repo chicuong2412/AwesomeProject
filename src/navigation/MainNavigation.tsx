@@ -9,7 +9,14 @@ import RegisterScreen from '../screens/RegisterScreen/RegisterScreen';
 import MainForgotPassScreen from '../screens/ForgotPassScreen/MainScreen';
 import SetPassScreen from '../screens/ForgotPassScreen/SetPassScreen';
 import EnterCodeScreen from '../screens/ForgotPassScreen/EnterCodeScreen';
-import {Animated, AppState, AppStateStatus, Easing, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Animated,
+  AppState,
+  AppStateStatus,
+  Easing,
+  View,
+} from 'react-native';
 import {useAuth} from '../Auth/AuthProvider';
 import {fetchScreenTimeToServer} from '../services/DataService';
 import GettingStartedScreen from '../screens/GettingStartedScreen';
@@ -115,10 +122,7 @@ export default function MainNavigation() {
             zIndex: 9999,
             backgroundColor: 'rgba(0,0,0,0.4)',
           }}>
-          <Animated.View
-            className="w-12 h-12 rounded-full border-4 border-t-blue-500 border-b-transparent"
-            style={{transform: [{rotate: spin}]}}
-          />
+          <ActivityIndicator size="small" color="#0000ff" />
         </View>
       ) : (
         <></>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import {View, Text, Image, TouchableOpacity, TextInput} from 'react-native';
 import React, {useEffect, useState} from 'react';
@@ -9,6 +10,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {StackRootIn} from '../../interfaces/interfaces';
 import {useNavigation} from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {useAuth} from '../../Auth/AuthProvider';
 
 type MainForgotNavigationProp = NativeStackNavigationProp<
   StackRootIn,
@@ -20,11 +22,20 @@ export default function MainForgotPassScreen() {
   const navigation = useNavigation<MainForgotNavigationProp>();
   const [helperText, setHelperText] = useState('');
 
-  const {data, errors, refetch} = useFetch<string>(() => {
+  const {setLoading} = useAuth();
+
+  const {data, errors, refetch} = useFetch<string>(async () => {
     if (email === undefined) {
       throw new Error('Please fill in the email');
     }
-    return FetchForgotPassword(email);
+    if (setLoading != null) {
+      setLoading(true);
+    }
+    var rp = await FetchForgotPassword(email);
+    if (setLoading != null) {
+      setLoading(false);
+    }
+    return rp;
   });
 
   const handlePressedForgot = async () => {
@@ -35,6 +46,7 @@ export default function MainForgotPassScreen() {
     async function GetPasscodeSuccess() {
       navigation.navigate('EnterCodeScreen', {
         resetPassToken: data,
+        email: email!,
       });
     }
     if (errors !== null) {
@@ -129,11 +141,7 @@ export default function MainForgotPassScreen() {
         <TouchableOpacity
           className="py-3 mr-2 d-flex flex-row items-center"
           onPress={() => navigation.navigate('Login')}>
-            <MaterialIcons
-            name="arrow-left"
-            size={24}
-            color="white"
-          />
+          <MaterialIcons name="arrow-left" size={24} color="white" />
           <Text className="text-white font-semibold text-center text-xl">
             Back to Login
           </Text>

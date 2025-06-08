@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import {View, Text, Image, ScrollView, TouchableOpacity} from 'react-native';
-import React, {useEffect} from 'react';
+import React from 'react';
 // import {useNavigation} from '@react-navigation/native';
 // import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 // import {RootNaviagtion} from '../types/interfaces.ts';
@@ -9,7 +9,11 @@ import {icons} from '../../constants/icons.ts';
 import GradientText from '../../components/Text/GradientText';
 import WhiteText from '../../components/Text/WhiteText';
 import LinearGradient from 'react-native-linear-gradient';
-import {useNavigation, DrawerActions} from '@react-navigation/native';
+import {
+  useNavigation,
+  DrawerActions,
+  useFocusEffect,
+} from '@react-navigation/native';
 import {useFetch} from '../../hooks/useFetch.ts';
 import {
   fetchDataMovieFavoriteList,
@@ -18,12 +22,6 @@ import {
 import {Movie, UserProfile} from '../../interfaces/interfaces';
 import Config from 'react-native-config';
 import LovedMovieItem from '../../components/LovedMovieItem/LovedMovieItem.tsx';
-
-const recentlyViewed = [
-  {title: 'Werewolves', poster_path: '/otXBlMPbFBRs6o2Xt6KX59Qw6dL.jpg'},
-  {title: 'Aftermath', poster_path: '/otXBlMPbFBRs6o2Xt6KX59Qw6dL.jpg'},
-  {title: 'Red One', poster_path: '/otXBlMPbFBRs6o2Xt6KX59Qw6dL.jpg'},
-];
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
@@ -41,11 +39,13 @@ export default function ProfileScreen() {
     return fetchMyProfile();
   });
 
-  useEffect(() => {
-    refetch();
-    fetchProfile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      refetch();
+      fetchProfile();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []),
+  );
 
   return (
     <View className="bg-primary flex-1">

@@ -15,6 +15,7 @@ const AuthContext = createContext<IAuth>({
   refreshToken: null,
   setTokens: (_newAccessToken: string, _newRefreshToken: string) => {},
   clearTokens: () => {},
+  setLoading: null,
 });
 
 export default function AuthProvider({children}: {children: ReactNode}) {
@@ -64,6 +65,7 @@ export default function AuthProvider({children}: {children: ReactNode}) {
         setTokens: saveTokens,
         clearTokens,
         loading,
+        setLoading,
       }}>
       {children}
     </AuthContext.Provider>

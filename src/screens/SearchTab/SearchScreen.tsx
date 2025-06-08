@@ -28,12 +28,10 @@ export default function SearchScreen() {
     errors,
   } = useFetch<Movie[]>(() => {
     return fetchData(
-      searchValue.localeCompare('') !== 0
-        ? 'movies/search' +
-            '?Search=' +
-            searchValue +
-            `${selectedGenere ? `&Genere=${selectedGenere}` : ''}`
-        : 'movies/discover',
+      'movies/search' +
+        '?Search=' +
+        searchValue +
+        `${selectedGenere ? `&Genere=${selectedGenere}` : ''}`,
     );
   }, false);
 
@@ -97,9 +95,10 @@ export default function SearchScreen() {
             marginHorizontal: 20,
           }}
           showsHorizontalScrollIndicator={false}>
-          {generes?.map(genere => (
+          {generes?.map((genere, index) => (
             <TouchableOpacity
               style={styles.button}
+              key={index}
               onPress={() => {
                 handleClickSelectGenere(genere.id);
               }}>
@@ -113,50 +112,50 @@ export default function SearchScreen() {
         </ScrollView>
       </View>
       <View className="px-5">
-      <FlatList
-        data={movies}
-        renderItem={({item}) => {
-          return <MovieDisplay item={item} key={item.id} />;
-        }}
-        keyExtractor={item => item.id.toString()}
-        numColumns={3}
-        // eslint-disable-next-line react-native/no-inline-styles
-        columnWrapperStyle={{
-          justifyContent: 'flex-start',
-          gap: 20,
-          paddingRight: 5,
-          marginBottom: 10,
-          // marginTop: 20,
-        }}
-        className="mt-2 pb-32"
-        scrollEnabled={false}
-        ListHeaderComponent={
-          <>
-            {loading && (
-              <ActivityIndicator
-                size="large"
-                color="#0000ff"
-                className="my-3"
-              />
-            )}
+        <FlatList
+          data={movies}
+          renderItem={({item}) => {
+            return <MovieDisplay item={item} key={item.id} />;
+          }}
+          keyExtractor={item => item.id.toString()}
+          numColumns={3}
+          // eslint-disable-next-line react-native/no-inline-styles
+          columnWrapperStyle={{
+            justifyContent: 'flex-start',
+            gap: 20,
+            paddingRight: 5,
+            marginBottom: 10,
+            // marginTop: 20,
+          }}
+          className="mt-2 pb-32"
+          scrollEnabled={false}
+          ListHeaderComponent={
+            <>
+              {loading && (
+                <ActivityIndicator
+                  size="large"
+                  color="#0000ff"
+                  className="my-3"
+                />
+              )}
 
-            {errors && (
-              <Text className="text-red-500 px-5 my-3">
-                Error: {errors.message}
-              </Text>
-            )}
-
-            {!loading && !errors && searchValue.trim() && (
-              <>
-                <Text className="text-xl text-white font-bold mb-2">
-                  Search results for{' '}
-                  <Text className="text-[#D1C0FF]">{searchValue}</Text>
+              {errors && (
+                <Text className="text-red-500 px-5 my-3">
+                  Error: {errors.message}
                 </Text>
-              </>
-            )}
-          </>
-        }
-      />
+              )}
+
+              {!loading && !errors && searchValue.trim() && (
+                <>
+                  <Text className="text-xl text-white font-bold mb-2">
+                    Search results for{' '}
+                    <Text className="text-[#D1C0FF]">{searchValue}</Text>
+                  </Text>
+                </>
+              )}
+            </>
+          }
+        />
       </View>
     </View>
   );

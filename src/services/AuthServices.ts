@@ -13,7 +13,7 @@ export async function Login(email: string, password: string) {
 export async function Logout() {
   const refreshToken = await AsyncStorage.getItem('refreshToken');
   const rp = await api.post('/api/authenticate/logout', {
-    requestToken : refreshToken,
+    requestToken: refreshToken,
   });
 
   return rp;
@@ -43,26 +43,29 @@ export async function ResetPassword(
   resetPassToken: string,
   newPassword: string,
 ) {
-  const rp = await api.put(
-    '/api/authenticate/change-password',
-    {
-      newPassword: newPassword,
-      token: resetPassToken,
-    },
-  );
+  const rp = await api.put('/api/authenticate/change-password', {
+    newPassword: newPassword,
+    token: resetPassToken,
+  });
 
   return rp.data.data;
 }
 
 export async function Register(
   email: string,
-  password: string
+  password: string,
 ): Promise<string> {
   const rp = await api.post('/api/authenticate/register', {
     email: email,
     password: password,
   });
-  
+  return rp.data;
+}
+
+export async function ChangePass(newPassword: string) {
+  const rp = await api.put('/api/authenticate/put-password', {
+    password: newPassword,
+  });
 
   return rp.data;
 }

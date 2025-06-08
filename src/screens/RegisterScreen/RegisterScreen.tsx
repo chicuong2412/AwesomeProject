@@ -16,6 +16,7 @@ import {StackRootIn} from '../../interfaces/interfaces';
 import {useNavigation} from '@react-navigation/native';
 import {useFetch} from '../../hooks/useFetch';
 import {Register} from '../../services/AuthServices';
+import { useAuth } from '../../Auth/AuthProvider';
 
 type RegisterScreenNavigationProp = NativeStackNavigationProp<
   StackRootIn,
@@ -29,8 +30,18 @@ export default function RegisterScreen() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigation = useNavigation<RegisterScreenNavigationProp>();
-  const {errors, data, refetch, loading, reset} = useFetch(() => {
-    return Register(email, password);
+
+  const {setLoading} = useAuth();
+
+  const {errors, data, refetch, loading, reset} = useFetch(async () => {
+    if (setLoading != null) {
+      setLoading(true);
+    }
+    var rp = await Register(email, password);
+    if (setLoading != null) {
+      setLoading(false);
+    }
+    return rp;
   });
   const [helperText, setHelperText] = useState<string | null>(null);
 

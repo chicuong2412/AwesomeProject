@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {images} from '../constants/images';
-import {icons} from '../constants/icons';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {StackRootIn} from '../interfaces/interfaces';
 import {useNavigation} from '@react-navigation/native';

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import {
   View,
@@ -30,14 +31,24 @@ export default function LoginScreen() {
   const [password, setPassword] = useState<string>();
   const [helperText, setHelperText] = useState<string | null>(null);
 
+  const {setLoading} = useAuth();
+
   const {
     data,
     errors,
     refetch,
     loading: loadingFetch,
     reset,
-  } = useFetch(() => {
-    return Login(email!, password!);
+  } = useFetch(async () => {
+    if (setLoading != null) {
+      setLoading(true);
+    }
+    var rp = await Login(email!, password!);
+
+    if (setLoading != null) {
+      setLoading(false);
+    }
+    return rp;
   });
 
   const {setTokens} = useAuth();
@@ -59,11 +70,10 @@ export default function LoginScreen() {
   };
 
   useEffect(() => {
-    reset();
-  }, [reset]);
-
-  useEffect(() => {
     if (errors !== null) {
+      if (setLoading !== null) {
+        setLoading(false);
+      }
       switch (errors.response?.status) {
         case 400:
           setHelperText(errors.response?.data as string);

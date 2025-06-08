@@ -7,7 +7,7 @@ import {
   FlatList,
   ActivityIndicator,
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 // import {useNavigation} from '@react-navigation/native';
 // import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 // import {RootNaviagtion} from '../types/interfaces.ts';
@@ -18,6 +18,7 @@ import MovieDisplay from '../components/MovieDisplay/MovieDisplay.tsx';
 import {fetchData} from '../services/DataService.ts';
 import {useFetch} from '../hooks/useFetch.ts';
 import {Movie} from '../interfaces/interfaces';
+import {useFocusEffect} from '@react-navigation/native';
 
 export default function Home() {
   const {
@@ -33,6 +34,13 @@ export default function Home() {
     loadMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      loadMovies();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []),
+  );
 
   return (
     <View className="bg-primary flex-1">
