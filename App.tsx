@@ -7,14 +7,16 @@
 
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import StackNavigation from './src/navigation/StackNavigation.tsx';
-
-
+import AuthProvider from './src/Auth/AuthProvider.tsx';
+import MainNavigation from './src/navigation/MainNavigation.tsx';
+import 'react-native-gesture-handler';
 
 export default function App() {
   return (
     <NavigationContainer>
-      <StackNavigation/>
+      <AuthProvider>
+        <MainNavigation />
+      </AuthProvider>
     </NavigationContainer>
   );
 }

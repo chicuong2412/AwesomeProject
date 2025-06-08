@@ -1,0 +1,45 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/DFVNGuardilostra.ttf",
+      "sha1": "686bb0f241efa11aaf79f645307868256d7288d4"
+    },
+    {
+      "path": "src/assets/fonts/DMSans-Bold.ttf",
+      "sha1": "778bb35f2dbe43bb29ca15cd642649cf2e6bacfd"
+    },
+    {
+      "path": "src/assets/fonts/DMSans-Italic-Bold.ttf",
+      "sha1": "dc676db068647ec3cb1ab43ce0b4fb532620c118"
+    },
+    {
+      "path": "src/assets/fonts/DMSans-Italic.ttf",
+      "sha1": "7c0d2c307a8a11c45e177efced1d14c6abdcba7f"
+    },
+    {
+      "path": "src/assets/fonts/DMSans-Medium.ttf",
+      "sha1": "ebeaed9f2b2f237f96c0028e86fa26294ba5da2c"
+    },
+    {
+      "path": "src/assets/fonts/Montserrat-Bold.ttf",
+      "sha1": "c7d907722af4fb845ab97d515bb414f29651f000"
+    },
+    {
+      "path": "src/assets/fonts/Montserrat-Italic-VariableFont_wght.ttf",
+      "sha1": "7ba6660400f0cb201da6facd9cddb768a182c968"
+    },
+    {
+      "path": "src/assets/fonts/Montserrat-Medium.ttf",
+      "sha1": "4656e40419da86a5fec473ea8e7fc0efef183f05"
+    },
+    {
+      "path": "src/assets/fonts/Montserrat-VariableFont_wght.ttf",
+      "sha1": "e3f5228e62455228b55694f1cb5ac40f9682a86b"
+    },
+    {
+      "path": "src/assets/fonts/SpaceMono-Regular.ttf",
+      "sha1": "fae3a5a43b50e0408fd61e14383d94a023d332b0"
+    }
+  ]
+}

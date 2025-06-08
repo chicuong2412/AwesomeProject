@@ -1,3 +1,6 @@
+import api from '../axios/AxiosConfig';
+import Config from 'react-native-config';
+
 export const TMDB_CONFIG = {
   BASE_URL: 'https://api.themoviedb.org/3',
   API_KEY:
@@ -9,34 +12,79 @@ export const TMDB_CONFIG = {
 };
 
 export async function fetchData(url: string) {
-  console.log(url);
+  const reponse = await api.get(Config.PUBLIC_LINK + '/api/' + url);
 
-  const reponse = await fetch(TMDB_CONFIG.BASE_URL + '/' + url, {
-    headers: TMDB_CONFIG.headers,
-    method: "GET"
-  });
-
-  if (!reponse.ok) {
-    throw new Error('Failed to get data!!!');
-  }
-
-  const data = await reponse.json();
-  
-
-  return data.results;
+  return reponse.data.data;
 }
 
-export async function fetchDataMovieDetail(id : string) {
+export async function fetchDataMovieFavoriteList() {
+  const reponse = await api.get(
+    Config.PUBLIC_LINK + '/api/users/get-favorite-movies',
+  );
+  return reponse.data.data;
+}
 
-  const reponse = await fetch(TMDB_CONFIG.BASE_URL + '/movie/' + id, {
-    headers: TMDB_CONFIG.headers,
+export async function fetchDataMovieDetail(id: string) {
+  const reponse = await api.get(Config.PUBLIC_LINK + '/api/movies/' + id);
+
+  return reponse.data.data;
+}
+
+export async function fetchDataMovieDetailMain(id: number) {
+  const rp = await api.get('/api/movies/' + id);
+
+  return rp.data.data;
+}
+
+export async function fetchSeasonsByMovieID(id: number) {
+  const rp = await api.get('/api/seasons/getSeasonsByMoiveId/' + id);
+
+  return rp.data.data;
+}
+
+export async function fetchEpisodesBySeasonID(id: number) {
+  const rp = await api.get('/api/Episodes/season/' + id);
+
+  return rp.data.data;
+}
+
+export function fetchScreenTimeToServer(value: number) {
+  const data = {
+    value: value,
+  };
+
+  api
+    .post('/api/users/update-screen-time', data)
+    .then()
+    .catch(error => {
+      console.error('Error updating screen time:', error);
+    });
+}
+
+export async function fetchMyProfile() {
+  const response = await api.get(
+    Config.PUBLIC_LINK + '/api/users/get-my-profile',
+  );
+  return response.data.data;
+}
+
+export async function fetchRelatedMovies() {
+  const response = await api.get('/api/movies/getRandom');
+  return response.data.data;
+}
+
+export async function UpdateProfile(form: FormData) {
+  const rp = await api.put('/api/users/update-my-profile', form, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
   });
 
-  if (!reponse.ok) {
-    throw new Error('Failed to get data!!!');
-  }
+  return rp;
+}
 
-  const data = await reponse.json();
+export async function FetchAllGeneres() {
+  const rp = await api.get('/api/generes/getAll');
 
-  return data;
+  return rp.data.data;
 }

@@ -9,6 +9,8 @@ interface InputProps {
 }
 
 const SearchBar = ({searchValue, setSearchValue, placeholder} : InputProps) => {
+
+
   return (
     <View className="bg-dark-200 px-5 py-2 rounded-full flex-row items-center">
       <Image
